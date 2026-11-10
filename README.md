@@ -1,2 +1,0 @@
-# mavenried.github.io
-Website

@@ -1,0 +1,4325 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta
+      content="Computer Graphics and Multimedia Techniques — complete exam study guide"
+      name="description"
+    />
+    <title>CGMT — Complete Study Guide</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]],
+          processEscapes: true,
+          packages: { "[+]": ["ams"] },
+        },
+        options: {
+          skipHtmlTags: [
+            "script",
+            "noscript",
+            "style",
+            "textarea",
+            "pre",
+            "code",
+          ],
+        },
+      };
+    </script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #202938;
+        --muted: #647184;
+        --paper: #fff;
+        --canvas: #f1f4f8;
+        --line: #dbe1ea;
+        --accent: #3267b2;
+        --accent-soft: #eaf1fb;
+      }
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --ink: #e7edf6;
+        --muted: #aab6c6;
+        --paper: #151b25;
+        --canvas: #0c1119;
+        --line: #303b4b;
+        --accent: #8bb7ff;
+        --accent-soft: #1d2c43;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 18px;
+      }
+      body {
+        margin: 0;
+        background: var(--canvas);
+        color: var(--ink);
+        font:
+          16px/1.7 "Poppins",
+          system-ui,
+          sans-serif;
+      }
+      #reading-track {
+        position: fixed;
+        z-index: 999;
+        inset: 0 0 auto;
+        height: 4px;
+        background: transparent;
+      }
+      #reading-track span {
+        display: block;
+        width: 0;
+        height: 100%;
+        background: var(--accent);
+      }
+      .layout {
+        max-width: 1540px;
+        margin: 24px auto;
+        padding: 0 18px;
+        display: grid;
+        grid-template-columns: 290px minmax(0, 1fr);
+        gap: 22px;
+        align-items: start;
+      }
+      nav {
+        position: sticky;
+        top: 14px;
+        max-height: calc(100vh - 28px);
+        overflow: auto;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 15px;
+      }
+      .nav-title {
+        font-weight: 700;
+        margin: 0 0 12px;
+      }
+      .progress-panel {
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        margin-bottom: 12px;
+      }
+      .progress-title {
+        font-weight: 700;
+        font-size: 0.8rem;
+        margin-bottom: 7px;
+      }
+      .progress-track {
+        height: 7px;
+        border-radius: 99px;
+        background: var(--line);
+        overflow: hidden;
+      }
+      .progress-track span {
+        display: block;
+        width: 0;
+        height: 100%;
+        background: var(--accent);
+        transition: width 0.2s;
+      }
+      .progress-label {
+        font-size: 0.72rem;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+      #toc {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      #toc li {
+        display: flex;
+        align-items: flex-start;
+        gap: 5px;
+        margin: 2px 0;
+      }
+      #toc .toc-level-1 {
+        margin-top: 10px;
+      }
+      #toc .toc-level-1 > a {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      #toc .toc-level-2 > a {
+        font-weight: 500;
+      }
+      #toc .toc-level-3 > a {
+        font-weight: 400;
+      }
+      #toc a {
+        min-width: 0;
+        flex: 1;
+        color: var(--muted);
+        font-size: 0.76rem;
+        line-height: 1.35;
+        text-decoration: none;
+        padding: 4px;
+        border-radius: 5px;
+      }
+      #toc a:hover,
+      #toc a.active {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      .toc-level-2 {
+        padding-left: 10px;
+      }
+      .toc-level-3 {
+        padding-left: 20px;
+      }
+      .toc-check {
+        width: 14px;
+        height: 14px;
+        flex: 0 0 auto;
+        margin: 7px 1px 0 0;
+        accent-color: var(--accent);
+        cursor: pointer;
+      }
+      .toc-check:checked + a {
+        text-decoration: line-through;
+        opacity: 0.6;
+      }
+      .toc-group {
+        font-weight: 650 !important;
+        color: var(--ink) !important;
+        cursor: pointer;
+      }
+      .toc-group:before {
+        content: "▸";
+        display: inline-block;
+        width: 1em;
+        color: var(--accent);
+      }
+      .toc-group.done {
+        color: var(--accent) !important;
+        text-decoration: underline !important;
+      }
+      .toc-group.partial {
+        font-weight: 800 !important;
+      }
+      main {
+        min-width: 0;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: clamp(20px, 4vw, 56px);
+      }
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 22px;
+      }
+      .toolbar button {
+        font: inherit;
+        font-size: 0.84rem;
+        background: var(--paper);
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        padding: 6px 10px;
+        cursor: pointer;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        line-height: 1.28;
+        scroll-margin-top: 18px;
+      }
+      h1 {
+        font-size: 1.9rem;
+        margin: 2.2em 0 0.8em;
+        border-bottom: 2px solid var(--line);
+        padding-bottom: 0.4em;
+      }
+      h1:first-of-type {
+        margin-top: 0;
+      }
+      h2 {
+        font-size: 1.5rem;
+        margin: 1.8em 0 0.65em;
+      }
+      h3 {
+        font-size: 1.15rem;
+        margin: 1.4em 0 0.5em;
+      }
+      h4 {
+        font-size: 1rem;
+      }
+      p {
+        margin: 0.65em 0 1em;
+      }
+      li {
+        margin: 0.25em 0;
+      }
+      ul,
+      ol {
+        padding-left: 1.5em;
+      }
+      blockquote {
+        margin: 1em 0;
+        padding: 10px 16px;
+        border-left: 3px solid var(--accent);
+        background: var(--accent-soft);
+      }
+      hr {
+        border: 0;
+        border-top: 1px solid var(--line);
+        margin: 2em 0;
+      }
+      .table-wrap {
+        max-width: 100%;
+        overflow-x: auto;
+        margin: 1.1em 0 1.5em;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: auto;
+        font-size: 0.9rem;
+        margin: 0;
+      }
+      th,
+      td {
+        padding: 9px 11px;
+        border: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: var(--accent-soft);
+        font-weight: 700;
+      }
+      tbody tr:nth-child(even) {
+        background: color-mix(in srgb, var(--paper), var(--canvas) 35%);
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+        background: none;
+        padding: 0;
+        border-radius: 0;
+      }
+      .math-display {
+        overflow-x: auto;
+        text-align: center;
+        margin: 1em 0;
+      }
+      .math-inline {
+        white-space: normal;
+      }
+      .figure {
+        margin: 1.5rem 0;
+        padding: clamp(10px, 2vw, 20px);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--canvas);
+        overflow: hidden;
+      }
+      .figure svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .figure figcaption {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 0.82rem;
+        text-align: center;
+      }
+      .figure .diagram-label {
+        fill: var(--ink);
+        font:
+          14px system-ui,
+          sans-serif;
+      }
+      .figure .diagram-small {
+        fill: var(--muted);
+        font:
+          12px system-ui,
+          sans-serif;
+      }
+      @media (max-width: 980px) {
+        .layout {
+          grid-template-columns: 1fr;
+          margin: 10px auto;
+        }
+        nav {
+          position: relative;
+          top: auto;
+          max-height: 40vh;
+        }
+        main {
+          padding: 20px;
+        }
+      }
+      @media print {
+        body {
+          background: white;
+          color: black;
+        }
+        .layout {
+          display: block;
+          margin: 0;
+          padding: 0;
+        }
+        nav,
+        .toolbar,
+        #reading-track {
+          display: none !important;
+        }
+        main {
+          border: 0;
+          padding: 0;
+        }
+        h1 {
+          break-before: page;
+        }
+        h1:first-of-type {
+          break-before: auto;
+        }
+        .table-wrap {
+          overflow: visible;
+        }
+        table {
+          break-inside: avoid;
+        }
+        .figure {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div aria-hidden="true" id="reading-track">
+      <span id="reading-progress"></span>
+    </div>
+    <div class="layout">
+      <nav aria-label="Table of contents">
+        <p class="nav-title">Contents</p>
+        <div class="progress-panel">
+          <div class="progress-title">Study progress</div>
+          <div
+            aria-label="Completed topics"
+            aria-valuemax="100"
+            aria-valuemin="0"
+            aria-valuenow="0"
+            class="progress-track"
+            role="progressbar"
+          >
+            <span id="progress-fill"></span>
+          </div>
+          <div class="progress-label" id="progress-label">0% complete</div>
+        </div>
+        <ul id="toc">
+          <li class="toc-level-1"><a href="#module-1-introduction-to-computer-graphics">Module 1 — Introduction to Computer Graphics</a></li>
+          <li class="toc-level-2"><a href="#11-what-is-computer-graphics">1.1 What is computer graphics?</a></li>
+          <li class="toc-level-3"><a href="#purpose-and-applications">Purpose and applications</a></li>
+          <li class="toc-level-3"><a href="#subfields-identified-in-the-lecture-notes">Subfields identified in the lecture notes</a></li>
+          <li class="toc-level-2"><a href="#12-video-display-devices-and-crt">1.2 Video display devices and CRT</a></li>
+          <li class="toc-level-3"><a href="#main-crt-components-and-operation">Main CRT components and operation</a></li>
+          <li class="toc-level-3"><a href="#fluorescence-and-phosphorescence">Fluorescence and phosphorescence</a></li>
+          <li class="toc-level-3"><a href="#crt-terminology">CRT terminology</a></li>
+          <li class="toc-level-3"><a href="#colour-crt-techniques">Colour CRT techniques</a></li>
+          <li class="toc-level-2"><a href="#13-raster-scan-and-random-scan-systems">1.3 Raster-scan and random-scan systems</a></li>
+          <li class="toc-level-2"><a href="#14-scan-conversion-and-line-drawing">1.4 Scan conversion and line drawing</a></li>
+          <li class="toc-level-3"><a href="#line-equation-and-notation">Line equation and notation</a></li>
+          <li class="toc-level-3"><a href="#digital-differential-analyser-dda">Digital Differential Analyser (DDA)</a></li>
+          <li class="toc-level-3"><a href="#worked-dda-example">Worked DDA example</a></li>
+          <li class="toc-level-3"><a href="#dda-strengths-and-weaknesses">DDA: strengths and weaknesses</a></li>
+          <li class="toc-level-3"><a href="#bresenhams-line-algorithm">Bresenham's line algorithm</a></li>
+          <li class="toc-level-3"><a href="#worked-bresenham-example">Worked Bresenham example</a></li>
+          <li class="toc-level-2"><a href="#15-bresenhams-circle-drawing-algorithm">1.5 Bresenham's circle drawing algorithm</a></li>
+          <li class="toc-level-2"><a href="#16-midpoint-ellipse-drawing-algorithm">1.6 Midpoint ellipse drawing algorithm</a></li>
+          <li class="toc-level-3"><a href="#module-1-common-errors">Module 1 Common Errors</a></li>
+          <li class="toc-level-3"><a href="#module-1-self-check">Module 1 Self-Check</a></li>
+          <li class="toc-level-1"><a href="#module-1-sample-examination">Module 1 — Sample Examination</a></li>
+          <li class="toc-level-3"><a href="#a-short-answer-questions-23-marks">A. Short-Answer Questions (2–3 Marks)</a></li>
+          <li class="toc-level-3"><a href="#b-descriptive-essay-questions-510-marks">B. Descriptive / Essay Questions (5–10 Marks)</a></li>
+          <li class="toc-level-3"><a href="#c-numerical-and-algorithm-problems">C. Numerical And Algorithm Problems</a></li>
+          <li class="toc-level-3"><a href="#d-extended-practice">D. Extended Practice</a></li>
+          <li class="toc-level-1"><a href="#module-2-two-dimensional-graphics">Module 2 — Two-Dimensional Graphics</a></li>
+          <li class="toc-level-2"><a href="#21-two-dimensional-transformations">2.1 Two-dimensional transformations</a></li>
+          <li class="toc-level-3"><a href="#coordinate-and-matrix-convention">Coordinate and matrix convention</a></li>
+          <li class="toc-level-2"><a href="#22-translation">2.2 Translation</a></li>
+          <li class="toc-level-2"><a href="#23-scaling">2.3 Scaling</a></li>
+          <li class="toc-level-3"><a href="#scaling-about-a-fixed-point">Scaling about a fixed point</a></li>
+          <li class="toc-level-2"><a href="#24-rotation">2.4 Rotation</a></li>
+          <li class="toc-level-2"><a href="#25-reflection">2.5 Reflection</a></li>
+          <li class="toc-level-2"><a href="#26-shearing">2.6 Shearing</a></li>
+          <li class="toc-level-2"><a href="#27-homogeneous-coordinates">2.7 Homogeneous coordinates</a></li>
+          <li class="toc-level-2"><a href="#28-composite-transformations">2.8 Composite transformations</a></li>
+          <li class="toc-level-3"><a href="#exam-method-for-composite-transformations">Exam method for composite transformations</a></li>
+          <li class="toc-level-2"><a href="#29-two-dimensional-viewing-pipeline">2.9 Two-dimensional viewing pipeline</a></li>
+          <li class="toc-level-2"><a href="#210-clipping">2.10 Clipping</a></li>
+          <li class="toc-level-2"><a href="#211-sutherlandhodgman-polygon-clipping">2.11 Sutherland–Hodgman polygon clipping</a></li>
+          <li class="toc-level-3"><a href="#module-2-self-check">Module 2 Self-Check</a></li>
+          <li class="toc-level-1"><a href="#module-2-sample-examination">Module 2 — Sample Examination</a></li>
+          <li class="toc-level-3"><a href="#a-short-answer-questions-23-marks-2">A. Short-Answer Questions (2–3 Marks)</a></li>
+          <li class="toc-level-3"><a href="#b-descriptive-essay-questions-510-marks-2">B. Descriptive / Essay Questions (5–10 Marks)</a></li>
+          <li class="toc-level-3"><a href="#c-numerical-and-algorithm-problems-2">C. Numerical And Algorithm Problems</a></li>
+          <li class="toc-level-3"><a href="#d-extended-practice-2">D. Extended Practice</a></li>
+          <li class="toc-level-1"><a href="#module-3-three-dimensional-graphics">Module 3 — Three-Dimensional Graphics</a></li>
+          <li class="toc-level-2"><a href="#31-three-dimensional-concepts">3.1 Three-dimensional concepts</a></li>
+          <li class="toc-level-3"><a href="#32-3d-object-representation-categories">3.2 3D object representation categories</a></li>
+          <li class="toc-level-2"><a href="#33-polygon-surfaces">3.3 Polygon surfaces</a></li>
+          <li class="toc-level-2"><a href="#34-polygon-tables">3.4 Polygon tables</a></li>
+          <li class="toc-level-2"><a href="#35-polygon-meshes">3.5 Polygon meshes</a></li>
+          <li class="toc-level-2"><a href="#36-plane-equations">3.6 Plane equations</a></li>
+          <li class="toc-level-2"><a href="#37-spline-representations">3.7 Spline representations</a></li>
+          <li class="toc-level-2"><a href="#38-bézier-curves">3.8 Bézier curves</a></li>
+          <li class="toc-level-2"><a href="#39-visible-surface-detection">3.9 Visible-surface detection</a></li>
+          <li class="toc-level-3"><a href="#module-3-self-check">Module 3 Self-Check</a></li>
+          <li class="toc-level-1"><a href="#module-3-sample-examination">Module 3 — Sample Examination</a></li>
+          <li class="toc-level-3"><a href="#a-short-answer-questions-23-marks-3">A. Short-Answer Questions (2–3 Marks)</a></li>
+          <li class="toc-level-3"><a href="#b-descriptive-essay-questions-510-marks-3">B. Descriptive / Essay Questions (5–10 Marks)</a></li>
+          <li class="toc-level-3"><a href="#c-numerical-and-algorithm-problems-3">C. Numerical And Algorithm Problems</a></li>
+          <li class="toc-level-3"><a href="#d-extended-practice-3">D. Extended Practice</a></li>
+          <li class="toc-level-1"><a href="#module-4-transformation-and-viewing">Module 4 — Transformation And Viewing</a></li>
+          <li class="toc-level-2"><a href="#41-three-dimensional-transformations">4.1 Three-dimensional transformations</a></li>
+          <li class="toc-level-3"><a href="#42-3d-translation">4.2 3D translation</a></li>
+          <li class="toc-level-3"><a href="#43-3d-scaling">4.3 3D scaling</a></li>
+          <li class="toc-level-3"><a href="#44-3d-rotation">4.4 3D rotation</a></li>
+          <li class="toc-level-2"><a href="#45-composite-3d-transformations">4.5 Composite 3D transformations</a></li>
+          <li class="toc-level-2"><a href="#46-three-dimensional-viewing-pipeline">4.6 Three-dimensional viewing pipeline</a></li>
+          <li class="toc-level-2"><a href="#47-projection">4.7 Projection</a></li>
+          <li class="toc-level-2"><a href="#48-opengl-primitives">4.8 OpenGL primitives</a></li>
+          <li class="toc-level-2"><a href="#49-common-opengl-functions-in-the-lecture-notes">4.9 Common OpenGL functions in the lecture notes</a></li>
+          <li class="toc-level-2"><a href="#410-opengl-rendering-pipeline">4.10 OpenGL rendering pipeline</a></li>
+          <li class="toc-level-2"><a href="#411-opengl-sample-programs">4.11 OpenGL sample programs</a></li>
+          <li class="toc-level-3"><a href="#draw-a-2d-triangle-legacy-immediate-mode">Draw a 2D triangle (legacy immediate mode)</a></li>
+          <li class="toc-level-3"><a href="#draw-one-face-of-a-3d-cube">Draw one face of a 3D cube</a></li>
+          <li class="toc-level-3"><a href="#colour-and-lighting">Colour and lighting</a></li>
+          <li class="toc-level-3"><a href="#module-4-self-check">Module 4 Self-Check</a></li>
+          <li class="toc-level-1"><a href="#module-4-sample-examination">Module 4 — Sample Examination</a></li>
+          <li class="toc-level-3"><a href="#a-short-answer-questions-23-marks-4">A. Short-Answer Questions (2–3 Marks)</a></li>
+          <li class="toc-level-3"><a href="#b-descriptive-essay-questions-510-marks-4">B. Descriptive / Essay Questions (5–10 Marks)</a></li>
+          <li class="toc-level-3"><a href="#d-extended-practice-4">D. Extended Practice</a></li>
+          <li class="toc-level-1"><a href="#module-5-introduction-to-multimedia-systems">Module 5 — Introduction to Multimedia Systems</a></li>
+          <li class="toc-level-2"><a href="#51-multimedia">5.1 Multimedia</a></li>
+          <li class="toc-level-2"><a href="#52-components-of-multimedia">5.2 Components of multimedia</a></li>
+          <li class="toc-level-2"><a href="#53-discrete-and-continuous-media">5.3 Discrete and continuous media</a></li>
+          <li class="toc-level-2"><a href="#54-data-streams">5.4 Data streams</a></li>
+          <li class="toc-level-2"><a href="#55-music-and-digitisation">5.5 Music and digitisation</a></li>
+          <li class="toc-level-2"><a href="#56-speech">5.6 Speech</a></li>
+          <li class="toc-level-2"><a href="#57-digital-images">5.7 Digital images</a></li>
+          <li class="toc-level-2"><a href="#58-data-compression">5.8 Data compression</a></li>
+          <li class="toc-level-2"><a href="#59-jpeg-image-compression">5.9 JPEG image compression</a></li>
+          <li class="toc-level-2"><a href="#510-h261-video-compression">5.10 H.261 video compression</a></li>
+          <li class="toc-level-2"><a href="#511-animation">5.11 Animation</a></li>
+          <li class="toc-level-2"><a href="#512-tweening">5.12 Tweening</a></li>
+          <li class="toc-level-2"><a href="#513-morphing">5.13 Morphing</a></li>
+          <li class="toc-level-2"><a href="#514-simulating-acceleration-and-deceleration">5.14 Simulating acceleration and deceleration</a></li>
+          <li class="toc-level-2"><a href="#515-motion-specification">5.15 Motion specification</a></li>
+          <li class="toc-level-3"><a href="#module-5-self-check">Module 5 Self-Check</a></li>
+          <li class="toc-level-1"><a href="#module-5-sample-examination">Module 5 — Sample Examination</a></li>
+          <li class="toc-level-3"><a href="#a-short-answer-questions-23-marks-5">A. Short-Answer Questions (2–3 Marks)</a></li>
+          <li class="toc-level-3"><a href="#b-descriptive-essay-questions-510-marks-5">B. Descriptive / Essay Questions (5–10 Marks)</a></li>
+          <li class="toc-level-3"><a href="#c-numerical-and-applied-problems">C. Numerical And Applied Problems</a></li>
+          <li class="toc-level-3"><a href="#d-extended-practice-5">D. Extended Practice</a></li>
+          <li class="toc-level-3"><a href="#integrated-exam-reference">Integrated Exam Reference</a></li>
+          <li class="toc-level-3"><a href="#formula-sheet">Formula Sheet</a></li>
+          <li class="toc-level-3"><a href="#algorithm-comparison-at-a-glance">Algorithm Comparison at a Glance</a></li>
+          <li class="toc-level-3"><a href="#high-value-distinctions">High-value distinctions</a></li>
+          <li class="toc-level-3"><a href="#how-to-structure-exam-answers">How To Structure Exam Answers</a></li>
+          <li class="toc-level-3"><a href="#coverage-and-source-notes">Coverage And Source Notes</a></li>
+          <li class="toc-level-3"><a href="#mastery-checklist">Mastery Checklist</a></li>
+          <li class="toc-level-2"><a href="#source-files">Source files</a></li>
+        </ul>
+      </nav>
+      <main id="guide">
+        <div class="toolbar">
+          <button id="theme" type="button">Dark mode</button
+          ><button id="font-down" type="button">A−</button
+          ><button id="font-up" type="button">A+</button
+          ><button id="print" type="button">Print / Save PDF</button>
+        </div>
+        <h1 id="module-1-introduction-to-computer-graphics">
+          Module 1 — Introduction to Computer Graphics
+        </h1>
+        <h2 id="11-what-is-computer-graphics">
+          1.1 What is computer graphics?
+        </h2>
+        <p>
+          Computer graphics is the computational creation and manipulation of
+          visual data. A graphics system represents objects and scenes,
+          processes their geometric and visual properties, and produces an image
+          for display. The lecture notes emphasise that visual information can
+          communicate ideas effectively because people often understand and
+          remember visual information more readily than textual descriptions.
+        </p>
+        <h3 id="purpose-and-applications">Purpose and applications</h3>
+        <ul>
+          <li>
+            Purpose: improve understanding and interpretation; improve
+            communication with computers; support better product design and
+            products.
+          </li>
+          <li>
+            Computer-Aided Design (CAD): design and inspect engineering,
+            architectural and manufactured objects.
+          </li>
+          <li>
+            Presentation graphics: charts, diagrams, slide graphics and
+            infographics.
+          </li>
+          <li>Entertainment: films, visual effects, animation and games.</li>
+          <li>Computer art: digital illustration and generated artwork.</li>
+          <li>
+            Education and training: visual explanations, demonstrations and
+            simulations.
+          </li>
+          <li>Visualization: represent complex or abstract data visually.</li>
+          <li>
+            Image processing: store, enhance, transform and analyse images.
+          </li>
+          <li>
+            Graphical user interfaces: windows, icons, menus, controls and other
+            visual interaction elements.
+          </li>
+        </ul>
+        <h3 id="subfields-identified-in-the-lecture-notes">
+          Subfields identified in the lecture notes
+        </h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Subfield</th>
+                <th>What it concerns</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Mathematical structures</td>
+                <td>
+                  Points, spaces, curves and the mathematical description of
+                  geometry.
+                </td>
+              </tr>
+              <tr>
+                <td>Modelling</td>
+                <td>
+                  Primitives, attributes, connectivity and dynamics of objects.
+                </td>
+              </tr>
+              <tr>
+                <td>User interfaces</td>
+                <td>How people interact with graphics systems.</td>
+              </tr>
+              <tr>
+                <td>Graphics software</td>
+                <td>Paint, CAD and drawing applications.</td>
+              </tr>
+              <tr>
+                <td>Graphics hardware</td>
+                <td>Input/output devices and specialised chips.</td>
+              </tr>
+              <tr>
+                <td>Viewing</td>
+                <td>Window-to-viewport mapping and clipping.</td>
+              </tr>
+              <tr>
+                <td>Rendering</td>
+                <td>
+                  Visible-surface detection, shading and image generation.
+                </td>
+              </tr>
+              <tr>
+                <td>Image processing</td>
+                <td>
+                  Image description, storage, enhancement and related
+                  operations.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h2 id="12-video-display-devices-and-crt">
+          1.2 Video display devices and CRT
+        </h2>
+        <figure aria-labelledby="crt-caption" class="figure">
+          <svg
+            aria-label="CRT schematic showing electron gun, control grid, focusing and accelerating anodes, deflection system, and phosphor screen"
+            role="img"
+            viewBox="0 0 900 260"
+          >
+            <defs>
+              <marker
+                id="crt-arrow"
+                markerHeight="8"
+                markerWidth="8"
+                orient="auto"
+                refX="6"
+                refY="3"
+              >
+                <path
+                  d="M0,0 L6,3 L0,6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.2"
+                ></path>
+              </marker>
+            </defs>
+            <rect
+              class="diagram-panel"
+              height="184"
+              rx="18"
+              stroke-width="2"
+              width="860"
+              x="18"
+              y="38"
+            ></rect>
+            <rect
+              class="diagram-fill"
+              height="70"
+              rx="9"
+              stroke="var(--accent)"
+              width="70"
+              x="42"
+              y="95"
+            ></rect>
+            <text class="diagram-label" text-anchor="middle" x="77" y="124">
+              Electron
+            </text>
+            <text class="diagram-label" text-anchor="middle" x="77" y="143">
+              gun
+            </text>
+            <rect
+              fill="#d97706"
+              height="76"
+              opacity=".85"
+              rx="4"
+              width="14"
+              x="145"
+              y="92"
+            ></rect>
+            <text class="diagram-small" text-anchor="middle" x="152" y="80">
+              Control grid
+            </text>
+            <rect
+              fill="#0d9488"
+              height="76"
+              opacity=".85"
+              rx="4"
+              width="16"
+              x="220"
+              y="92"
+            ></rect>
+            <text class="diagram-small" text-anchor="middle" x="228" y="80">
+              Focusing
+            </text>
+            <rect
+              fill="#0d9488"
+              height="76"
+              opacity=".85"
+              rx="4"
+              width="16"
+              x="280"
+              y="92"
+            ></rect>
+            <text class="diagram-small" text-anchor="middle" x="288" y="185">
+              Anode
+            </text>
+            <path
+              d="M112 130 L810 130"
+              fill="none"
+              marker-end="url(#crt-arrow)"
+              stroke="var(--accent)"
+              stroke-dasharray="8 6"
+              stroke-width="3"
+            ></path>
+            <path
+              d="M380 80 Q410 130 380 180 M430 80 Q400 130 430 180"
+              fill="none"
+              stroke="#7c3aed"
+              stroke-width="3"
+            ></path>
+            <text class="diagram-small" text-anchor="middle" x="405" y="62">
+              Deflection system
+            </text>
+            <rect
+              fill="#f59e0b"
+              height="150"
+              opacity=".9"
+              rx="4"
+              width="18"
+              x="824"
+              y="55"
+            ></rect>
+            <path
+              d="M810 130 L824 130"
+              stroke="var(--accent)"
+              stroke-width="3"
+            ></path>
+            <text class="diagram-small" text-anchor="middle" x="833" y="38">
+              Phosphor
+            </text>
+            <text class="diagram-small" text-anchor="middle" x="833" y="220">
+              screen
+            </text>
+            <text class="diagram-small" text-anchor="middle" x="450" y="245">
+              Electron beam travels through the evacuated tube and produces
+              light at the screen.
+            </text>
+          </svg>
+          <figcaption id="crt-caption">
+            CRT operation — conceptual redraw of the components and beam path
+            described in the lecture notes.
+          </figcaption>
+        </figure>
+        <p>
+          A video monitor displays visual information. The Module 1 notes
+          introduce refresh Cathode-Ray Tubes (CRTs), raster-scan displays and
+          random-scan displays. A Cathode-Ray Tube (CRT) is an electronic vacuum
+          tube that directs an electron beam onto a phosphor-coated screen. The
+          phosphor emits visible light when struck by the beam.
+        </p>
+        <h3 id="main-crt-components-and-operation">Main CRT components and operation</h3>
+        <ul>
+          <li>Heater: heats the cathode.</li>
+          <li>Cathode: emits electrons through thermionic emission.</li>
+          <li>
+            Control grid: regulates the number/intensity of electrons reaching
+            the screen; this controls brightness. A more negative grid potential
+            allows fewer electrons through.
+          </li>
+          <li>Accelerating anode: accelerates the electrons.</li>
+          <li>
+            Focusing system: concentrates the beam into a narrow, sharp spot.
+          </li>
+          <li>
+            Deflection system: uses electromagnetic or electrostatic fields to
+            steer the beam horizontally and vertically.
+          </li>
+          <li>
+            Phosphor coating: emits visible light where the electron beam
+            strikes. Sequence: heater warms cathode → cathode emits electrons →
+            control grid regulates electron flow → anodes
+          </li>
+        </ul>
+        <p>
+          accelerate/focus the beam → deflection system directs the beam → beam
+          strikes phosphor → phosphor glows.
+        </p>
+        <h3 id="fluorescence-and-phosphorescence">
+          Fluorescence and phosphorescence
+        </h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Term</th>
+                <th>Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Fluorescence</td>
+                <td>
+                  Light emitted while the phosphor is being struck by electrons.
+                </td>
+              </tr>
+              <tr>
+                <td>Phosphorescence</td>
+                <td>
+                  Light emitted after the electron beam has been removed; it
+                  decays over time.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="crt-terminology">CRT terminology</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Term</th>
+                <th>Definition / significance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Persistence</td>
+                <td>
+                  Time for emitted light to decay to one-tenth of its original
+                  intensity.
+                </td>
+              </tr>
+              <tr>
+                <td>Resolution</td>
+                <td>
+                  Maximum number of points/pixels that can be displayed without
+                  overlap. Example in notes: 1024 × 720.
+                </td>
+              </tr>
+              <tr>
+                <td>Aspect ratio</td>
+                <td>
+                  Ratio of horizontal to vertical dimensions, commonly written
+                  width:height.
+                </td>
+              </tr>
+              <tr>
+                <td>Pixel / pel</td>
+                <td>
+                  A minute area of illumination; one of the many elements
+                  composing a displayed image.
+                </td>
+              </tr>
+              <tr>
+                <td>Frame buffer</td>
+                <td>
+                  Memory holding data associated with pixels. Examples include
+                  colour and depth buffers.
+                </td>
+              </tr>
+              <tr>
+                <td>Buffer depth</td>
+                <td>Number of bits per pixel in a frame buffer.</td>
+              </tr>
+              <tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Examples of aspect ratios in the notes include 16:9 (for example,
+          1920 × 1080), 4:3 (for example, 1440 × 1080), 21:9 (for example,
+          3440 × 1440), and 32:9 (for example, 3840 × 1080).
+        </p>
+        <h3 id="colour-crt-techniques">Colour CRT techniques</h3>
+        <p>
+          Beam-penetration technique: the notes describe a display using red
+          and green phosphor layers. A low-potential beam excites red; a
+          high-potential beam excites green; intermediate conditions can
+          produce combinations such as orange and yellow.
+        </p>
+        <ul>
+          <li>
+            Advantages in the notes: cheaper; high resolution; uses one electron
+            gun; can identify beam potential.
+          </li>
+          <li>
+            Disadvantages in the notes: only a few colours; not suitable for
+            realistic views; associated with random-scan displays; colour
+            changes take time; picture quality is limited. Shadow-mask method: a
+            colour CRT technique that uses separate red, green and blue electron
+            beams and a perforated shadow mask so each beam strikes its
+            corresponding colour phosphor. Different intensities of red, green
+            and blue combine to produce colours. Do not confuse beam penetration
+            with shadow mask. Beam penetration selects colours by beam energy
+            and phosphor layers; shadow-mask colour CRTs combine red, green and
+            blue phosphors using separate beams.
+          </li>
+        </ul>
+        <h2 id="13-raster-scan-and-random-scan-systems">
+          1.3 Raster-scan and random-scan systems
+        </h2>
+        <figure aria-labelledby="scan-caption" class="figure">
+          <svg
+            aria-label="Comparison of raster scan horizontal rows and random scan vector line tracing"
+            role="img"
+            viewBox="0 0 900 300"
+          >
+            <rect
+              class="diagram-panel"
+              height="250"
+              rx="12"
+              width="414"
+              x="18"
+              y="18"
+            ></rect>
+            <rect
+              class="diagram-panel"
+              height="250"
+              rx="12"
+              width="414"
+              x="468"
+              y="18"
+            ></rect>
+            <text
+              class="diagram-label"
+              font-weight="700"
+              text-anchor="middle"
+              x="225"
+              y="48"
+            >
+              Raster scan
+            </text>
+            <text
+              class="diagram-label"
+              font-weight="700"
+              text-anchor="middle"
+              x="675"
+              y="48"
+            >
+              Random scan
+            </text>
+            <rect
+              fill="none"
+              height="160"
+              stroke="var(--line)"
+              stroke-width="1.5"
+              width="320"
+              x="65"
+              y="70"
+            ></rect>
+            <g opacity=".85" stroke="#2563eb" stroke-width="2">
+              <path
+                d="M70 82 H380 M380 102 H70 M70 122 H380 M380 142 H70 M70 162 H380 M380 182 H70 M70 202 H380 M380 222 H70"
+                fill="none"
+              ></path>
+            </g>
+            <path
+              d="M70 82 H380 M380 102 H70"
+              fill="none"
+              stroke="#d97706"
+              stroke-width="3"
+            ></path>
+            <text class="diagram-small" text-anchor="middle" x="225" y="254">
+              Beam sweeps row by row
+            </text>
+            <rect
+              fill="none"
+              height="160"
+              stroke="var(--line)"
+              stroke-width="1.5"
+              width="320"
+              x="515"
+              y="70"
+            ></rect>
+            <path
+              d="M560 195 L560 105 L640 105 L640 195 L560 195 M680 195 L680 105 L760 105 L760 195 L680 195 M560 150 L760 150"
+              fill="none"
+              stroke="#0d9488"
+              stroke-linejoin="round"
+              stroke-width="4"
+            ></path>
+            <path
+              d="M560 195 L560 105 L640 105 L640 195 L560 195"
+              fill="none"
+              stroke="#d97706"
+              stroke-width="3"
+            ></path>
+            <text class="diagram-small" text-anchor="middle" x="675" y="254">
+              Beam traces selected line segments
+            </text>
+          </svg>
+          <figcaption id="scan-caption">
+            Raster displays refresh a pixel grid; random-scan displays trace the
+            vectors in a display list.
+          </figcaption>
+        </figure>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Raster scan</th>
+                <th>Random scan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Beam movement</td>
+                <td>
+                  Sweeps across the screen row by row, from top to bottom.
+                </td>
+                <td>
+                  Directed only to the portions of the screen where the picture
+                  is to be drawn.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Raster scan</th>
+                <th>Random scan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Drawing model</td>
+                <td>Pixels arranged in scan lines.</td>
+                <td>Lines drawn directly, point to point.</td>
+              </tr>
+              <tr>
+                <td>Alternative name</td>
+                <td>Raster display.</td>
+                <td>Vector, stroke-writing or calligraphic display.</td>
+              </tr>
+              <tr>
+                <td>Picture storage</td>
+                <td>Picture definition stored in refresh/frame buffer.</td>
+                <td>
+                  Display list: instructions describing the lines to draw.
+                </td>
+              </tr>
+              <tr>
+                <td>Best suited to</td>
+                <td>Filled, shaded, complex and coloured images.</td>
+                <td>Line drawings, engineering drawings and wireframes.</td>
+              </tr>
+              <tr>
+                <td>Refresh behaviour</td>
+                <td>Regular screen refresh following a fixed scan pattern.</td>
+                <td>Refresh time depends on the number of lines to draw.</td>
+              </tr>
+              <tr>
+                <td>Limitations</td>
+                <td>
+                  Needs pixel/frame-buffer storage; line edges may be jagged
+                  without suitable processing.
+                </td>
+                <td>
+                  Not well suited to shaded/filled or highly complex coloured
+                  images; many lines can affect refresh.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h2 id="14-scan-conversion-and-line-drawing">
+          1.4 Scan conversion and line drawing
+        </h2>
+        <p>
+          Real geometric objects are continuous, but a raster display consists
+          of discrete pixels. Scan conversion is the process of converting a
+          continuous primitive (such as a line, circle or ellipse) into a
+          collection of pixels.
+        </p>
+        <h3 id="line-equation-and-notation">Line equation and notation</h3>
+        <p>
+          For endpoints
+          <span class="math-inline">\(P_0=(x_0,y_0)\)</span> and
+          <span class="math-inline">\(P_1=(x_1,y_1)\)</span>:
+          <span class="math-inline"
+            >\(\Delta x = x1 - x0 \Delta y = y1 - y0\)</span
+          >
+        </p>
+        <p>
+          <span class="math-inline"
+            >\(m = \Delta y / \Delta x y = mx + b\)</span
+          >
+        </p>
+        <p>
+          A raster line algorithm selects pixels that best approximate the
+          ideal continuous line. The important distinction is how it selects
+          the next pixel.
+        </p>
+        <h3 id="digital-differential-analyser-dda">Digital Differential Analyser (DDA)</h3>
+        <p>
+          DDA calculates intermediate points between the endpoints using
+          incremental floating-point arithmetic.
+          <span class="math-inline">\(dx = x1 - x0\)</span>
+        </p>
+        <p><span class="math-inline">\(dy = y1 - y0\)</span></p>
+        <p><span class="math-inline">\(steps = \max(|dx|, |dy|)\)</span></p>
+        <p><span class="math-inline">\(x_increment = dx / steps\)</span></p>
+        <p><span class="math-inline">\(y_increment = dy / steps\)</span></p>
+        <p><span class="math-inline">\(x = x0; y = y0\)</span></p>
+        <p>
+          <strong>repeat steps + 1 times:</strong>
+          plot(round(x), round(y))
+          <span class="math-inline">\(x = x + x_increment\)</span>
+        </p>
+        <p><span class="math-inline">\(y = y + y_increment\)</span></p>
+        <p>
+          The number of steps is chosen from the larger absolute coordinate
+          difference so that the dominant coordinate advances by approximately
+          one unit per step. This handles all line slopes, including steep and
+          negative slopes.
+        </p>
+        <h3 id="worked-dda-example">Worked DDA example</h3>
+        <p>
+          Draw a line from (2,2) to (8,5).
+          <span class="math-inline">\(dx = 8 - 2 = 6\)</span>
+        </p>
+        <p><span class="math-inline">\(dy = 5 - 2 = 3\)</span></p>
+        <p><span class="math-inline">\(steps = max(6,3) = 6\)</span></p>
+        <p><span class="math-inline">\(xinc = 6/6 = 1\)</span></p>
+        <p><span class="math-inline">\(yinc = 3/6 = 0.5\)</span></p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Step</th><th>x</th><th>y</th><th>Plotted pixel</th></tr></thead>
+            <tbody>
+              <tr><td>0</td><td>2</td><td>2</td><td>(2,2)</td></tr>
+              <tr><td>1</td><td>3</td><td>2.5</td><td>(3,3)</td></tr>
+              <tr><td>2</td><td>4</td><td>3</td><td>(4,3)</td></tr>
+              <tr><td>3</td><td>5</td><td>3.5</td><td>(5,4)</td></tr>
+              <tr><td>4</td><td>6</td><td>4</td><td>(6,4)</td></tr>
+              <tr><td>5</td><td>7</td><td>4.5</td><td>(7,5)</td></tr>
+              <tr><td>6</td><td>8</td><td>5</td><td>(8,5)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          Half-integer rounding can vary by implementation. In an exam trace,
+          state the rounding convention and apply it consistently.
+        </p>
+        <h3 id="dda-strengths-and-weaknesses">DDA: strengths and weaknesses</h3>
+        <ul>
+          <li>Simple and applicable to different line slopes.</li>
+          <li>Uses floating-point additions and division.</li>
+          <li>
+            Rounding is required at each plotted point; accumulated rounding can
+            introduce error.
+          </li>
+          <li>
+            Generally less efficient than an integer-only incremental method.
+          </li>
+        </ul>
+        <h3 id="bresenhams-line-algorithm">Bresenham's line algorithm</h3>
+        <p>
+          Bresenham's algorithm chooses the pixel that best approximates the
+          line using an integer decision parameter. The lecture derivation is
+          presented for the first octant, where 0 ≤ m ≤ 1 and x increases one
+          unit per step.
+        </p>
+        <p>
+          At each step, the next pixel is either E=(x+1,y) or NE=(x+1,y+1). The
+          decision parameter indicates which candidate is closer.
+          <span class="math-inline">\(\Delta x = x1 - x0\)</span>
+        </p>
+        <p><span class="math-inline">\(\Delta y = y1 - y0\)</span></p>
+        <p><span class="math-inline">\(p0 = 2\Delta y - \Delta x\)</span></p>
+        <p>
+          Plot (x0, y0)
+          <strong>For each next x position:</strong>
+          <strong>if pk &lt; 0:</strong>
+          choose E: (xk+1, yk)
+          <span class="math-inline">\(pk+1 = pk + 2\Delta y\)</span>
+        </p>
+        <p>
+          <strong>else:</strong>
+          choose NE: (xk+1, yk+1)
+          <span class="math-inline">\(pk+1 = pk + 2\Delta y - 2\Delta x\)</span>
+        </p>
+        <p>
+          The lecture notes use p0 = 2∆y − ∆x, with the update p_next = p0 + 2∆y
+          when p0 is negative, and p_next = p0 + 2∆y −
+        </p>
+        <p>
+          2∆x otherwise.
+        </p>
+        <h3 id="worked-bresenham-example">Worked Bresenham example</h3>
+        <p>
+          Find the pixels for a line from (20,10) to (30,18), as in the lecture
+          example.
+          <span class="math-inline">\(\Delta x = 10; \Delta y = 8\)</span>
+        </p>
+        <p><span class="math-inline">\(p0 = 2(8) - 10 = 6\)</span></p>
+        <p>
+          <span class="math-inline"
+            >\(2\Delta y = 16; 2\Delta y - 2\Delta x = -4\)</span
+          >
+        </p>
+        <p><strong>Start:</strong> (20,10), p=6.</p>
+        <ol>
+          <li>p ≥ 0 → NE: (21,11), p=6−4=2</li>
+          <li>p ≥ 0 → NE: (22,12), p=2−4=−2</li>
+          <li>p &lt; 0 → E: (23,12), p=−2+16=14</li>
+          <li>p ≥ 0 → NE: (24,13), p=14−4=10</li>
+          <li>p ≥ 0 → NE: (25,14), p=10−4=6</li>
+          <li>p ≥ 0 → NE: (26,15), p=6−4=2</li>
+          <li>p ≥ 0 → NE: (27,16), p=2−4=−2</li>
+          <li>p &lt; 0 → E: (28,16), p=−2+16=14</li>
+          <li>p ≥ 0 → NE: (29,17), p=14−4=10</li>
+          <li>p ≥ 0 → NE: (30,18), p=10−4=6</li>
+        </ol>
+        <p>
+          For other octants, adapt the roles and signs of x and y increments,
+          or exchange the axes. Do not apply the first-octant recurrence to
+          every slope unchanged.
+        </p>
+        <p>
+          <strong>DDA</strong> Bresenham Uses floating-point increments. Uses an
+          integer decision parameter in the standard first-octant form. Rounds
+          intermediate coordinates. Selects between neighbouring candidate
+          pixels. Simple to derive and implement. Typically more efficient for
+          raster hardware. Floating-point accumulation can introduce rounding
+          effects. Avoids floating-point arithmetic in the core recurrence.
+        </p>
+        <h2 id="15-bresenhams-circle-drawing-algorithm">
+          1.5 Bresenham's circle drawing algorithm
+        </h2>
+        <p>
+          A circle centred at the origin with radius r satisfies:
+          <span class="math-inline">\(x^2 + y^2 = r^2\)</span>
+        </p>
+        <p>
+          The algorithm exploits eight-way symmetry. It calculates points in one
+          octant and reflects each point to obtain the remaining seven points. (
+          x, y) (-x, y) ( x, -y) (-x, -y) ( y, x) (-y, x) ( y, -x) (-y, -x) For
+          a circle centred at (xc,yc), add the centre to every generated offset:
+          (xc±x,yc±y) and (xc±y,yc±x).
+          <code>Decision logic</code>
+          In the first octant, the algorithm chooses between two candidate
+          pixels as it moves around the circle. The circle function
+          <strong>can be written:</strong>
+          <span class="math-inline">\(F(x,y) = x^2 + y^2 - r^2\)</span>
+        </p>
+        <p>
+          F &lt; 0: point inside the circle
+          <span class="math-inline">\(F = 0: point on the circle\)</span>
+        </p>
+        <p>
+          F &gt; 0: point outside the circle The decision parameter determines
+          which candidate is closer to the true circle. A common integer
+          formulation for the
+          <strong>midpoint/Bresenham circle recurrence is:</strong>
+          <code>Start: x = 0, y = r, p = 3 - 2r</code>
+        </p>
+        <p>
+          <span class="math-inline">\(While x &lt;= y:\)</span>
+          plot the 8 symmetric points
+          <strong>if p &lt; 0:</strong>
+          <span class="math-inline">\(p = p + 4x + 6\)</span>
+        </p>
+        <p>
+          <strong>else:</strong>
+          <span class="math-inline">\(p = p + 4(x - y) + 10\)</span>
+        </p>
+        <p><span class="math-inline">\(y = y - 1\)</span></p>
+        <p><span class="math-inline">\(x = x + 1\)</span></p>
+        <p>
+          Some lecture slides derive a circle decision parameter using distances
+          to candidate pixels and use a different algebraic form. The recurrence
+          above is the standard integer midpoint form of the same incremental
+          decision process. Use the exact recurrence taught by your lecturer if
+          a specific classroom convention is prescribed. Example: radius 5
+          Initial point: (0,5)
+          <span class="math-inline">\(p0 = 3 - 2(5) = -7\)</span>
+        </p>
+        <p>
+          At each iteration, plot (x,y) and its 7 reflections. If p &lt; 0,
+          choose the horizontal step and update p. Otherwise choose the diagonal
+          step, decrement y, and update p. Stop when x &gt; y. A full numerical
+          trace is obtained by maintaining columns x, y, p, selected move and
+          the eight symmetric points. The key exam marks are usually the initial
+          parameter, correct decision/update, symmetry and stopping condition.
+        </p>
+        <h2 id="16-midpoint-ellipse-drawing-algorithm">
+          1.6 Midpoint ellipse drawing algorithm
+        </h2>
+        <p>
+          An ellipse centred at the origin with semi-axes rI and rI is described
+          by: <span class="math-inline">\(x^2/rx^2 + y^2/ry^2 = 1\)</span>
+        </p>
+        <p>
+          <span class="math-inline"
+            >\(F(x,y) = ry^2x^2 + rx^2y^2 - rx^2ry^2\)</span
+          >
+        </p>
+        <p>
+          The midpoint algorithm determines which candidate pixel best follows
+          the ellipse boundary. An ellipse has four-way symmetry, not eight-way
+          circle symmetry. A point (x,y) produces: ( x, y), (-x, y), ( x,-y),
+          (-x,-y) The algorithm calculates one quadrant and reflects its points
+          into the other three quadrants. Why there are two regions The slope
+          magnitude changes along the ellipse. The first region is where the
+          boundary is relatively shallow (the x-coordinate advances); the second
+          region is where the boundary is relatively steep (the y-coordinate
+          decreases). The <strong>switch occurs when:</strong>
+        </p>
+        <p>
+          <span class="math-inline">\(2 ry^2 x &gt;= 2 rx^2 y\)</span>
+          Region 1
+          <span class="math-inline"
+            >\(Start at (x0,y0)=(0,rI). The initial decision parameter
+            is:\)</span
+          >
+          <span class="math-inline">\(p1_0 = ry^2 - rx^2 ry + (1/4)rx^2\)</span>
+        </p>
+        <p>
+          At each step, x increases by one. Evaluate the midpoint between the E
+          and SE candidates. If the midpoint is inside the
+          <strong>ellipse (p0 &lt; 0), choose E and update:</strong>
+          <span class="math-inline">\(x = x + 1\)</span>
+        </p>
+        <p>
+          y unchanged
+          <span class="math-inline">\(p1_next = p1 + 2 ry^2 x + ry^2\)</span>
+        </p>
+        <p>
+          <code>If p0 ≥ 0, choose SE (increase x and decrease y):</code>
+          <span class="math-inline">\(x = x + 1\)</span>
+        </p>
+        <p><span class="math-inline">\(y = y - 1\)</span></p>
+        <p>
+          <span class="math-inline"
+            >\(p1_next = p1 + 2 ry^2 x - 2 rx^2 y + ry^2\)</span
+          >
+        </p>
+        <p>
+          The x and y in the update expressions are the newly updated
+          coordinates. Region 2 At the transition point, initialise the second
+          decision parameter at the midpoint between the S and SE candidates:
+          <span class="math-inline"
+            >\(p2 = ry^2(x + 1/2)^2 + rx^2(y - 1)^2 - rx^2 ry^2\)</span
+          >
+        </p>
+        <p>
+          In region 2, y decreases each step. If p0 &gt; 0, choose S (x
+          unchanged, y decreases):
+          <span class="math-inline">\(y = y - 1\)</span>
+        </p>
+        <p>
+          <span class="math-inline">\(p2_next = p2 - 2 rx^2 y + rx^2\)</span>
+        </p>
+        <p>
+          Otherwise choose SE (x increases and y decreases):
+          <span class="math-inline">\(x = x + 1\)</span>
+        </p>
+        <p><span class="math-inline">\(y = y - 1\)</span></p>
+        <p>
+          <span class="math-inline"
+            >\(p2_next = p2 + 2 ry^2 x - 2 rx^2 y + rx^2\)</span
+          >
+        </p>
+        <p>
+          Continue until y reaches zero. Plot the four symmetric points at every
+          step. The uploaded Module 1 notes include a worked ellipse with rx=8
+          and ry=6. Its region-1 table starts at (0,6) with p0I = −33
+        </p>
+        <p>
+          and transitions to region 2 at (7,3). This is a useful reference trace
+          to practise reproducing.
+        </p>
+        <h3 id="module-1-common-errors">Module 1 Common Errors</h3>
+        <ul>
+          <li>Confusing persistence with refresh rate.</li>
+          <li>
+            Confusing raster scan (row-by-row) with random scan (vector path).
+          </li>
+          <li>
+            Forgetting to round DDA points or using the wrong number of steps.
+          </li>
+          <li>
+            Applying the first-octant Bresenham line recurrence to a steep or
+            negative-slope line without adapting it.
+          </li>
+          <li>
+            Forgetting eight-way circle symmetry or using circle symmetry for an
+            ellipse.
+          </li>
+          <li>
+            Using the wrong ellipse region or switching regions before the slope
+            condition is met.
+          </li>
+        </ul>
+        <h3 id="module-1-self-check">Module 1 Self-Check</h3>
+        <ul>
+          <li>
+            <p>Explain the CRT electron path and the role of each component.</p>
+          </li>
+          <li>
+            <p>Compare raster-scan and random-scan displays.</p>
+          </li>
+          <li>
+            <p>
+              Define persistence, resolution, aspect ratio, pixel, frame buffer
+              and buffer depth.
+            </p>
+          </li>
+          <li>
+            <p>Trace DDA for a line with a slope greater than one.</p>
+          </li>
+          <li>
+            <p>Trace Bresenham's line algorithm and update p correctly.</p>
+          </li>
+          <li>
+            <p>
+              Explain why circle symmetry gives eight points and ellipse
+              symmetry gives four.
+            </p>
+          </li>
+          <li>
+            <p>
+              Identify the two midpoint-ellipse regions and their switching
+              condition.
+            </p>
+          </li>
+        </ul>
+        <h1 id="module-1-sample-examination">Module 1 — Sample Examination</h1>
+        <p>
+          <strong>QUESTIONS</strong> These are syllabus-based practice questions
+          created for revision. They are not represented as questions from an
+          actual past examination. Attempt the numerical questions on paper and
+          write descriptive answers in a structured, diagram-supported format.
+        </p>
+        <h3 id="a-short-answer-questions-23-marks">
+          A. Short-Answer Questions (2–3 Marks)
+        </h3>
+        <ol>
+          <li>Define computer graphics and state four applications.</li>
+          <li>
+            Define persistence, resolution, aspect ratio, pixel, frame buffer
+            and buffer depth.
+          </li>
+          <li>Distinguish fluorescence from phosphorescence.</li>
+          <li>
+            State the functions of the control grid, focusing system and
+            deflection system in a CRT.
+          </li>
+          <li>What is a display list? Which display system uses it?</li>
+        </ol>
+        <h3 id="b-descriptive-essay-questions-510-marks">
+          B. Descriptive / Essay Questions (5–10 Marks)
+        </h3>
+        <ol start="6">
+          <li>
+            Explain the construction and working of a CRT with a labelled
+            diagram. Describe the function of each component.
+          </li>
+          <li>
+            Compare raster-scan and random-scan display systems with respect to
+            beam movement, storage, refresh and applications.
+          </li>
+          <li>
+            Explain beam-penetration and shadow-mask methods of producing colour
+            in CRT displays. Compare their operation.
+          </li>
+          <li>
+            Explain scan conversion and why continuous geometric primitives must
+            be converted into discrete pixels.
+          </li>
+        </ol>
+        <h3 id="c-numerical-and-algorithm-problems">
+          C. Numerical And Algorithm Problems
+        </h3>
+        <ol start="10">
+          <li>
+            Use the DDA algorithm to rasterise the line joining (2, 3) and (10,
+            7). Show Δx, Δy, number of steps, increments and every plotted
+            pixel.
+          </li>
+          <li>
+            Apply DDA to the line from (4, 12) to (8, 2). Explain how your
+            implementation handles a negative and steep slope.
+          </li>
+          <li>
+            Use Bresenham's line algorithm to generate the pixels for the
+            line from (10, 5) to (18, 11). Show the initial decision parameter
+            and every update.
+          </li>
+          <li>
+            For a circle of radius 6 centred at (0,0), trace the midpoint circle
+            algorithm. Show (x,y), decision parameter and the eight symmetric
+            points at each iteration.
+          </li>
+          <li>
+            Apply the midpoint ellipse algorithm for rx=8 and ry=6. Show the
+            initial Region 1 parameter, region-switch test, Region 2
+            initialisation and plotted points.
+          </li>
+          <li>
+            A display has resolution 1920×1080 and a buffer depth of 24 bits per
+            pixel. Calculate the frame-buffer storage required in bits and bytes
+            for one frame, ignoring padding.
+          </li>
+        </ol>
+        <h3 id="d-extended-practice">D. Extended Practice</h3>
+        <ol start="16">
+          <li>
+            Explain the DDA algorithm and Bresenham's line algorithm with
+            pseudocode, a worked example and a
+            <code>comparison of computational cost and accuracy.</code>
+          </li>
+          <li>
+            Derive the midpoint ellipse decision procedure and explain why two
+            regions are required.
+          </li>
+          <li>
+            Explain the use of symmetry in circle and ellipse generation. Why
+            are the symmetry counts different?
+          </li>
+        </ol>
+        <p>
+          Suggested answer discipline: define the concept, explain the mechanism
+          in sequence, include a labelled diagram or matrix where appropriate,
+          and finish with a relevant comparison, application or limitation.
+        </p>
+        <h1 id="module-2-two-dimensional-graphics">
+          Module 2 — Two-Dimensional Graphics
+        </h1>
+        <h2 id="21-two-dimensional-transformations">
+          2.1 Two-dimensional transformations
+        </h2>
+        <p>
+          A transformation changes a graphical object by applying rules to its
+          coordinates. The syllabus includes translation,
+        </p>
+        <p>
+          rotation, scaling, reflection and shearing, together with matrix
+          representations, homogeneous coordinates and composite
+          transformations.
+        </p>
+        <h3 id="coordinate-and-matrix-convention">Coordinate and matrix convention</h3>
+        <p>
+          This guide uses column vectors and left multiplication:
+          <span class="math-inline">\(P' = MP\)</span>. A point is
+          <span class="math-inline">\(P=[x\ y]^T\)</span> in ordinary
+          coordinates and <span class="math-inline">\(P_h=[x\ y\ 1]^T\)</span>
+        </p>
+        <p>
+          in homogeneous coordinates. This convention must be kept consistent
+          throughout a calculation.
+        </p>
+        <h2 id="22-translation">2.2 Translation</h2>
+        <p>
+          Translation moves an object without changing its size, shape or
+          orientation. In homogeneous coordinates:
+        </p>
+        <div class="math-display">\[\begin{bmatrix}x'\\y'\\1\end{bmatrix} = \begin{bmatrix}1&amp;0&amp;T_x\\0&amp;1&amp;T_y\\0&amp;0&amp;1\end{bmatrix}\begin{bmatrix}x\\y\\1\end{bmatrix}\]</div>
+        <p>
+          Example: translate P=(5,5) by T=(5,10). The result is P′=(10,15).
+          Apply the same displacement to every vertex of the object.
+        </p>
+        <h2 id="23-scaling">2.3 Scaling</h2>
+        <p>
+          Scaling enlarges or reduces an object with respect to a fixed point,
+          commonly the origin. Its homogeneous matrix is:
+        </p>
+        <div class="math-display">\[S=\begin{bmatrix}s_x&amp;0&amp;0\\0&amp;s_y&amp;0\\0&amp;0&amp;1\end{bmatrix},\qquad \begin{bmatrix}x'\\y'\\1\end{bmatrix}=S\begin{bmatrix}x\\y\\1\end{bmatrix}\]</div>
+        <ul>
+          <li>
+            If a scale factor is greater than 1, the corresponding dimension
+            increases.
+          </li>
+          <li>
+            If it lies between 0 and 1, the corresponding dimension decreases.
+          </li>
+          <li>If sx=sy, scaling is uniform and preserves proportions.</li>
+          <li>
+            If sx and sy differ, scaling is non-uniform and changes proportions.
+          </li>
+          <li>
+            A scale factor of 1 leaves that coordinate dimension unchanged.
+          </li>
+        </ul>
+        <h3 id="scaling-about-a-fixed-point">Scaling about a fixed point</h3>
+        <p>
+            To scale about a fixed point F=(x_f,y_f),
+            translate F to the origin, scale, then translate it back. The direct
+            equations are:
+        </p>
+        <div class="math-display">\[x'=s_xx+x_f(1-s_x),\qquad y'=s_yy+y_f(1-s_y)\]</div>
+        <p>
+          This is important because scaling about the origin can move an object
+          as well as resize it.
+        </p>
+        <h2 id="24-rotation">2.4 Rotation</h2>
+        <p>
+          A 2D rotation turns an object through angle θ about the origin. In the
+          usual Cartesian convention, positive θ is anticlockwise. The
+          homogeneous rotation matrix is:
+        </p>
+        <div class="math-display">\[R(\theta)=\begin{bmatrix}\cos\theta&amp;-\sin\theta&amp;0\\\sin\theta&amp;\cos\theta&amp;0\\0&amp;0&amp;1\end{bmatrix}\]</div>
+        <p>
+          At θ=90°, cos θ=0 and sin θ=1, so (x,y)
+          becomes (−y,x). For example, (1,0) becomes (0,1), and (1,1) becomes
+          (−1,1). To rotate about a fixed point (xf,yf): translate the fixed
+          point to the origin, rotate, then translate back.
+        </p>
+        <h2 id="25-reflection">2.5 Reflection</h2>
+        <p>
+          Reflection produces a mirror image relative to an axis or line. Common
+          origin-based reflection matrices are:
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Reflection</th>
+                <th scope="col">Coordinate result</th>
+                <th scope="col">Homogeneous matrix</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>About x-axis</td>
+                <td><span class="math-inline">\((x,-y)\)</span></td>
+                <td><span class="math-inline">\(\begin{bmatrix}1&amp;0&amp;0\\0&amp;-1&amp;0\\0&amp;0&amp;1\end{bmatrix}\)</span></td>
+              </tr>
+              <tr>
+                <td>About y-axis</td>
+                <td><span class="math-inline">\((-x,y)\)</span></td>
+                <td><span class="math-inline">\(\begin{bmatrix}-1&amp;0&amp;0\\0&amp;1&amp;0\\0&amp;0&amp;1\end{bmatrix}\)</span></td>
+              </tr>
+              <tr>
+                <td>About origin</td>
+                <td><span class="math-inline">\((-x,-y)\)</span></td>
+                <td><span class="math-inline">\(\begin{bmatrix}-1&amp;0&amp;0\\0&amp;-1&amp;0\\0&amp;0&amp;1\end{bmatrix}\)</span></td>
+              </tr>
+              <tr>
+                <td>About <span class="math-inline">\(y=x\)</span></td>
+                <td><span class="math-inline">\((y,x)\)</span></td>
+                <td><span class="math-inline">\(\begin{bmatrix}0&amp;1&amp;0\\1&amp;0&amp;0\\0&amp;0&amp;1\end{bmatrix}\)</span></td>
+              </tr>
+              <tr>
+                <td>About <span class="math-inline">\(y=-x\)</span></td>
+                <td><span class="math-inline">\((-y,-x)\)</span></td>
+                <td><span class="math-inline">\(\begin{bmatrix}0&amp;-1&amp;0\\-1&amp;0&amp;0\\0&amp;0&amp;1\end{bmatrix}\)</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          A reflection reverses orientation. State the axis or line of reflection
+          precisely.
+        </p>
+        <h2 id="26-shearing">2.6 Shearing</h2>
+        <p>
+          Shearing slants an object by displacing one coordinate in proportion
+          to the other. Its homogeneous matrix is:
+        </p>
+        <div class="math-display">\[H=\begin{bmatrix}1&amp;sh_x&amp;0\\sh_y&amp;1&amp;0\\0&amp;0&amp;1\end{bmatrix},\qquad \begin{bmatrix}x'\\y'\\1\end{bmatrix}=H\begin{bmatrix}x\\y\\1\end{bmatrix}\]</div>
+        <p>
+          For x-shear only, y remains unchanged and x changes
+          according to y. For y-shear only, x remains unchanged and y changes
+          according to x.
+        </p>
+        <h2 id="27-homogeneous-coordinates">2.7 Homogeneous coordinates</h2>
+        <p>
+          Homogeneous coordinates represent a 2D point (x,y) as the triple
+          (x,y,1). This allows translation, as well as rotation, scaling,
+          reflection and shearing, to be represented uniformly as 3×3 matrix
+          multiplications. A point with homogeneous coordinate w≠1 can be
+          converted to Cartesian coordinates by dividing x and y by w. In the
+          standard affine transformations in this course, the input point is
+          usually represented with w=1.
+        </p>
+        <h2 id="28-composite-transformations">2.8 Composite transformations</h2>
+        <p>
+          A composite transformation applies two or more transformations in
+          sequence. Matrix multiplication combines them into one matrix. Order
+          matters. Matrix multiplication is not commutative: AB is generally not
+          equal to BA. With column vectors, if translation is performed first
+          and scaling second, the composite matrix is T·S, because the rightmost
+          matrix acts first.
+          Example: scale P=(2,1) by (2,2), then translate by (3,0).
+        </p>
+        <div class="math-display">\[P=\begin{bmatrix}2\\1\\1\end{bmatrix},\qquad S=\begin{bmatrix}2&amp;0&amp;0\\0&amp;2&amp;0\\0&amp;0&amp;1\end{bmatrix},\qquad T=\begin{bmatrix}1&amp;0&amp;3\\0&amp;1&amp;0\\0&amp;0&amp;1\end{bmatrix}\]</div>
+        <p>
+          Applying scale first and then translation gives P′=TSP=(7,2,1). If
+          the order is reversed, translate first to (5,1), then scale to (10,2).
+          The two results differ.
+        </p>
+        <h3 id="exam-method-for-composite-transformations">Exam method for composite transformations</h3>
+        <ul>
+          <li>Write the requested order in words.</li>
+          <li>Write each homogeneous matrix.</li>
+          <li>
+            For column vectors, multiply matrices in reverse written application
+            order.
+          </li>
+          <li>Multiply the combined matrix by each object vertex.</li>
+          <li>Check one point manually to catch order errors.</li>
+        </ul>
+        <h2 id="29-two-dimensional-viewing-pipeline">
+          2.9 Two-dimensional viewing pipeline
+        </h2>
+        <figure aria-labelledby="pipeline-caption" class="figure">
+          <svg
+            aria-label="2D graphics viewing pipeline from world coordinates through window selection, clipping and viewport mapping to display"
+            role="img"
+            viewBox="0 0 920 190"
+          >
+            <defs>
+              <marker
+                id="pipe-arrow"
+                markerHeight="8"
+                markerWidth="8"
+                orient="auto"
+                refX="6"
+                refY="3"
+              >
+                <path
+                  d="M0 0L6 3L0 6"
+                  fill="none"
+                  stroke="var(--accent)"
+                  stroke-width="1.5"
+                ></path>
+              </marker>
+            </defs>
+            <g>
+              <rect
+                class="diagram-fill"
+                height="76"
+                rx="9"
+                stroke="var(--accent)"
+                width="150"
+                x="12"
+                y="48"
+              ></rect>
+              <rect
+                class="diagram-panel"
+                height="76"
+                rx="9"
+                width="150"
+                x="202"
+                y="48"
+              ></rect>
+              <rect
+                class="diagram-panel"
+                height="76"
+                rx="9"
+                width="150"
+                x="392"
+                y="48"
+              ></rect>
+              <rect
+                class="diagram-panel"
+                height="76"
+                rx="9"
+                width="150"
+                x="582"
+                y="48"
+              ></rect>
+              <rect
+                class="diagram-fill"
+                height="76"
+                rx="9"
+                stroke="var(--accent)"
+                width="136"
+                x="772"
+                y="48"
+              ></rect>
+              <g class="diagram-label" text-anchor="middle">
+                <text x="87" y="80">World</text>
+                <text x="87" y="100">coordinates</text>
+                <text x="277" y="80">Window</text>
+                <text x="277" y="100">selection</text>
+                <text x="467" y="80">Clipping</text>
+                <text x="467" y="100">operations</text>
+                <text x="657" y="80">Viewport</text>
+                <text x="657" y="100">mapping</text>
+                <text x="840" y="80">Display</text>
+                <text x="840" y="100">device</text>
+              </g>
+              <g
+                marker-end="url(#pipe-arrow)"
+                stroke="var(--accent)"
+                stroke-width="2"
+              >
+                <path
+                  d="M162 86H196 M352 86H386 M542 86H576 M732 86H766"
+                ></path>
+              </g>
+            </g>
+            <text class="diagram-small" text-anchor="middle" x="460" y="158">
+              Select the visible world region, discard outside portions, then
+              map it to the display area.
+            </text>
+          </svg>
+          <figcaption id="pipeline-caption">
+            2D viewing pipeline — window selection, clipping and
+            window-to-viewport mapping.
+          </figcaption>
+        </figure>
+        <p>
+          Viewing maps a selected portion of a world-coordinate scene to a
+          display region. The window is the selected world-coordinate area; the
+          viewport is the display area where the window is mapped. For window
+          [xwmin,xwmax] × [ywmin,ywmax] and viewport [xvmin,xvmax] ×
+          [yvmin,yvmax], the scale factors and mapped point are:
+        </p>
+        <div class="math-display">\[s_x=\frac{x_{vmax}-x_{vmin}}{x_{wmax}-x_{wmin}},\qquad s_y=\frac{y_{vmax}-y_{vmin}}{y_{wmax}-y_{wmin}}\]</div>
+        <div class="math-display">\[x_v=x_{vmin}+(x_w-x_{wmin})s_x,\qquad y_v=y_{vmin}+(y_w-y_{wmin})s_y\]</div>
+        <p>
+          The scale factors determine how the selected world region is resized
+          to fit the viewport. If sx and sy differ, the image may be distorted.
+          To preserve proportions, use equal scale factors and accommodate
+          unused space where necessary. Worked viewport example
+          <span class="math-inline"
+            >\(Window: x=0…100, y=0…50. Viewport: x=200…600, y=100…300. Map
+            world point (25,10).\)</span
+          >
+          <span class="math-inline">\(sx = 400/100 = 4\)</span>
+        </p>
+        <p><span class="math-inline">\(sy = 200/50 = 4\)</span></p>
+        <p><span class="math-inline">\(xv = 200 + (25-0)*4 = 300\)</span></p>
+        <p><span class="math-inline">\(yv = 100 + (10-0)*4 = 140\)</span></p>
+        <p><span class="math-inline">\(Mapped point = (300,140)\)</span></p>
+        <h2 id="210-clipping">2.10 Clipping</h2>
+        <p>
+          Clipping removes portions of primitives outside a specified viewing
+          region. A line or polygon can be fully accepted, fully rejected, or
+          partially clipped. Cohen–Sutherland line clipping Cohen–Sutherland
+          clips a line against a rectangular clipping window. It assigns a 4-bit
+          region code (outcode) to each
+        </p>
+        <p>
+          endpoint, indicating whether it is left, right, below or above the
+          window. Bit condition Meaning
+        </p>
+        <p><strong>LEFT</strong> x &lt; xmin</p>
+        <p><strong>RIGHT</strong> x &gt; xmax</p>
+        <p><strong>BOTTOM</strong> y &lt; ymin</p>
+        <p>
+          <strong>TOP</strong>
+          y &gt; ymax 0000 Point lies inside the window. The exact bit order may
+          vary between presentations. Use one consistent convention and label
+          it. A common convention
+          <span class="math-inline"
+            >\(is TOP=1000, BOTTOM=0100, RIGHT=0010, LEFT=0001.\)</span
+          >
+          Three acceptance/rejection tests
+        </p>
+        <ul>
+          <li>
+            Trivial accept: if both endpoint outcodes are 0000, the entire line
+            is inside.
+          </li>
+          <li>
+            Trivial reject: if the bitwise AND of the endpoint outcodes is
+            non-zero, both endpoints lie outside on the same side, so the line
+            cannot cross the window.
+          </li>
+          <li>
+            Partial clipping: otherwise, find an intersection with a relevant
+            boundary, replace the outside endpoint with the intersection,
+            recompute its outcode and repeat. Intersection calculations
+            <code>For vertical boundary x = xedge:</code>
+          </li>
+        </ul>
+        <p>
+          <span class="math-inline"
+            >\(y = y0 + (y1-y0)*(xedge-x0)/(x1-x0)\)</span
+          >
+        </p>
+        <p><code>For horizontal boundary y = yedge:</code></p>
+        <p>
+          <span class="math-inline"
+            >\(x = x0 + (x1-x0)*(yedge-y0)/(y1-y0)\)</span
+          >
+        </p>
+        <p>
+          Select the boundary indicated by an outside endpoint's outcode. Repeat
+          until accepted or rejected. Worked reasoning example Window: 0≤x≤10
+          and 0≤y≤8. Consider A=(−2,4) and B=(6,4). A is left of the window; B
+          is inside. The line intersects the left boundary x=0. Since it is
+          horizontal, y remains 4. The clipped segment is (0,4) to (6,4).
+        </p>
+        <h2 id="211-sutherlandhodgman-polygon-clipping">
+          2.11 Sutherland–Hodgman polygon clipping
+        </h2>
+        <p>
+          This algorithm clips a polygon against a convex clipping window by
+          processing one boundary at a time. The output polygon from one
+          boundary becomes the input polygon for the next. The lecture notes
+          list the order left, right, top and bottom; the final result does not
+          depend on the order if each boundary is processed correctly. For each
+          polygon edge from previous vertex S to current vertex P, classify S
+          and P as inside or outside relative to the
+          <strong>current clipping boundary:</strong>
+        </p>
+        <p><strong>S</strong></p>
+        <p>
+          <strong>P</strong> Output Inside Inside Output P. Inside Outside
+          Output intersection only. Outside Inside Output intersection, then P.
+          Outside Outside Output nothing. Repeat this process for every edge of
+          the current polygon, then move to the next clipping boundary. After
+          all four boundaries, the remaining vertex sequence describes the
+          clipped polygon. Cohen–Sutherland versus Sutherland–Hodgman
+          Cohen–Sutherland Sutherland–Hodgman Clips line segments. Clips
+          polygons. Uses endpoint outcodes and bitwise tests. Processes polygon
+          edges against successive window boundaries. May accept/reject a line
+          trivially. Produces a new vertex sequence after each clipping
+          boundary. Computes intersections for partially visible lines. Computes
+          intersections where polygon edges cross clipping boundaries.
+        </p>
+        <h3 id="module-2-self-check">Module 2 Self-Check</h3>
+        <ul>
+          <li>Write all five 2D transformation matrices.</li>
+          <li>Perform a fixed-point scaling or rotation.</li>
+          <li>Explain homogeneous coordinates and why they are useful.</li>
+          <li>Calculate a composite transformation in the correct order.</li>
+          <li>Map a point from a window to a viewport.</li>
+          <li>
+            Generate Cohen–Sutherland outcodes and perform trivial accept/reject
+            tests.
+          </li>
+          <li>Trace all four Sutherland–Hodgman inside/outside cases.</li>
+        </ul>
+        <h1 id="module-2-sample-examination">Module 2 — Sample Examination</h1>
+        <p>
+          <strong>QUESTIONS</strong> These are syllabus-based practice questions
+          created for revision. They are not represented as questions from an
+          actual past examination. Attempt the numerical questions on paper and
+          write descriptive answers in a structured, diagram-supported format.
+        </p>
+        <h3 id="a-short-answer-questions-23-marks-2">
+          A. Short-Answer Questions (2–3 Marks)
+        </h3>
+        <ol>
+          <li>
+            Define translation, scaling, rotation, reflection and shearing.
+          </li>
+          <li>What are homogeneous coordinates? Why are they useful?</li>
+          <li>Distinguish a window from a viewport.</li>
+          <li>
+            What is clipping? State the purpose of region codes in
+            Cohen–Sutherland clipping.
+          </li>
+          <li>
+            State the four possible inside/outside cases in Sutherland–Hodgman
+            polygon clipping.
+          </li>
+        </ol>
+        <h3 id="b-descriptive-essay-questions-510-marks-2">
+          B. Descriptive / Essay Questions (5–10 Marks)
+        </h3>
+        <ol start="6">
+          <li>
+            Explain the five basic 2D transformations and write their
+            homogeneous transformation matrices.
+          </li>
+          <li>
+            Explain composite transformations. Why does the order of matrix
+            multiplication matter? Illustrate with an example.
+          </li>
+          <li>
+            Describe the 2D viewing pipeline and derive the window-to-viewport
+            mapping equations.
+          </li>
+          <li>
+            Explain the Cohen–Sutherland line clipping algorithm, including
+            trivial acceptance, trivial rejection and intersection calculation.
+          </li>
+          <li>
+            Explain the Sutherland–Hodgman polygon clipping algorithm with all
+            four edge cases.
+          </li>
+        </ol>
+        <h3 id="c-numerical-and-algorithm-problems-2">
+          C. Numerical And Algorithm Problems
+        </h3>
+        <ol start="11">
+          <li>
+            Translate triangle A(1,2), B(4,2), C(2,5) by Tx=3 and Ty=−2. Find
+            all new vertices.
+          </li>
+          <li>
+            Scale point P(6,4) by sx=2 and sy=0.5 about the fixed point (2,1).
+            Show the formula and result.
+          </li>
+          <li>
+            Rotate point P(3,2) by 90° anticlockwise about the origin, then
+            translate it by (4,−1). Find the final point using matrices.
+          </li>
+          <li>
+            Apply scaling by (2,3) followed by translation (−1,4) to point
+            (2,1). Write the composite matrix and calculate the result. Then
+            reverse the order and compare.
+          </li>
+          <li>
+            A window is x=[0,100], y=[0,80] and the viewport is x=[200,600],
+            y=[100,420]. Map world point (25,40) into viewport coordinates.
+          </li>
+          <li>
+            A clipping window is 0≤x≤10 and 0≤y≤8. Find the outcodes for
+            A=(−3,4), B=(7,12), C=(5,5) and D=(14,−2). Identify any trivially
+            accepted or rejected line pairs.
+          </li>
+          <li>
+            Use Cohen–Sutherland to clip the segment joining (−4,4) and (12,6)
+            against the window 0≤x≤10, 0≤y≤8. Show each intersection and updated
+            outcode.
+          </li>
+          <li>
+            Clip a polygon with vertices (−2,2), (5,−2), (12,4), (5,10) against
+            the square 0≤x≤8, 0≤y≤8 using Sutherland–Hodgman. Show the vertex
+            list after each boundary.
+          </li>
+        </ol>
+        <h3 id="d-extended-practice-2">D. Extended Practice</h3>
+        <ol start="19">
+          <li>
+            Derive the homogeneous matrices for reflection about the x-axis,
+            y-axis, origin and the lines y=x and y=−x.
+          </li>
+          <li>
+            Discuss the advantages and limitations of Cohen–Sutherland and
+            Sutherland–Hodgman clipping. Explain which problem each solves.
+          </li>
+          <li>
+            A graphics window must fit into a viewport with a different aspect
+            ratio. Explain the distortion that may occur and how it can be
+            avoided.
+          </li>
+        </ol>
+        <p>
+          Suggested answer discipline: define the concept, explain the mechanism
+          in sequence, include a labelled diagram or matrix where appropriate,
+          and finish with a relevant comparison, application or limitation.
+        </p>
+        <h1 id="module-3-three-dimensional-graphics">
+          Module 3 — Three-Dimensional Graphics
+        </h1>
+        <h2 id="31-three-dimensional-concepts">
+          3.1 Three-dimensional concepts
+        </h2>
+        <p>
+          A 3D graphics scene can contain objects with different shapes and
+          materials: trees, rocks, water, wood, metal, glass, cloth and many
+          others. No single representation captures every characteristic of
+          every material. A suitable representation is chosen to model the
+          properties needed for a realistic display.
+        </p>
+        <h3 id="32-3d-object-representation-categories">
+          3.2 3D object representation categories
+        </h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Representation</th>
+                <th>Description</th>
+                <th>Typical use / example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Boundary representation (B-Rep)</td>
+                <td>
+                  Describes an object as a set of surfaces separating its
+                  interior from the environment; it describes the outer
+                  boundary.
+                </td>
+                <td>Surface models in games and CAD; spline patches.</td>
+              </tr>
+              <tr>
+                <td>Space partitioning</td>
+                <td>
+                  Divides the spatial region containing an object into small,
+                  non-overlapping, contiguous solids, often cubes. It describes
+                  interior properties as well as occupied space.
+                </td>
+                <td>Octree representation; volumetric data.</td>
+              </tr>
+              <tr>
+                <td>
+                  A surface-only model is often efficient for display;
+                  volumetric partitioning is useful when internal occupancy
+                  matters.
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h2 id="33-polygon-surfaces">3.3 Polygon surfaces</h2>
+        <p>
+          A 3D object can be described by polygons (flat surfaces) covering its
+          outside. Polygons are widely used because they
+          <code
+            >can be described using relatively simple linear mathematics and are
+            convenient to render.</code
+          >
+        </p>
+        <ul>
+          <li>
+            Flat-sided objects can be represented accurately by polygon faces.
+          </li>
+          <li>
+            Curved surfaces can be approximated by many small polygons; this is
+            called tessellation or tiling.
+          </li>
+          <li>
+            A smooth surface such as a spline may be converted into polygons for
+            processing or display.
+          </li>
+        </ul>
+        <h2 id="34-polygon-tables">3.4 Polygon tables</h2>
+        <p>
+          A polygon surface is specified by vertex coordinates and associated
+          attributes. The information is organised into tables
+          <code>for processing, display and manipulation.</code>
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Table group</th>
+                <th>Contents</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Geometric data tables</td>
+                <td>
+                  Vertex coordinates and parameters identifying the spatial
+                  orientation of polygon surfaces.
+                </td>
+              </tr>
+              <tr>
+                <td>Attribute data tables</td>
+                <td>
+                  Display attributes such as colour, intensity, transparency or
+                  other surface properties.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ul>
+          <li>Vertex table: stores coordinate values for each vertex.</li>
+          <li>
+            Edge table: identifies edges by their endpoint vertices and may
+            store adjacency or edge-related information.
+          </li>
+          <li>
+            Polygon/surface table: records the vertices/edges making up each
+            face and may point to the associated attributes. The key idea is
+            that a polygon is not just a list of pixels: it is geometric data
+            (vertices and connectivity) plus attributes used when displaying it.
+          </li>
+        </ul>
+        <h2 id="35-polygon-meshes">3.5 Polygon meshes</h2>
+        <p>
+          A polygon mesh is a collection of vertices, edges and polygon faces
+          connected to describe a 3D surface. A mesh reuses shared vertices and
+          edges between adjacent faces rather than treating every face as an
+          unrelated object.
+        </p>
+        <ul>
+          <li>Vertices define positions in 3D space.</li>
+          <li>Edges connect pairs of vertices.</li>
+          <li>Faces are polygons bounded by edges.</li>
+          <li>
+            Connectivity records which vertices and edges belong to each face
+            and which faces share edges. A cube, for example, can be represented
+            by eight corner vertices connected into twelve edges and six
+            quadrilateral faces. A triangular mesh uses triangular faces, which
+            are convenient for graphics processing.
+          </li>
+        </ul>
+        <h2 id="36-plane-equations">3.6 Plane equations</h2>
+        <p>
+          <strong>A plane in 3D can be written:</strong>
+          <span class="math-inline">\(Ax + By + Cz + D = 0\)</span>
+        </p>
+        <p>
+          The vector n=(A,B,C) is the plane normal. It is perpendicular to every
+          direction lying in the plane. If the plane passes
+          <span class="math-inline"
+            >\(through point P1=(x1,y1,z1), then:\)</span
+          >
+          <span class="math-inline">\(A(x-x0) + B(y-y0) + C(z-z0) = 0\)</span>
+        </p>
+        <p>
+          For three non-collinear points P0, P1 and P2, form two direction
+          vectors u=P1−P0 and v=P2−P0. Their cross product
+          <span class="math-inline"
+            >\(n=u\times v gives a normal. Substitute any one of the points into
+            Ax+By+Cz+D=0 to find D.\)</span
+          >
+          Worked plane example Find the plane through (1,0,0), (0,1,0) and
+          (0,0,1). The plane is x+y+z=1, or x+y+z−1=0. Thus A=B=C=1 and
+          <span class="math-inline">\(D=-1.\)</span>
+          Point-side test Substituting a point Q into F(Q)=Ax+By+Cz+D gives a
+          signed value. A positive, negative or zero result indicates which side
+          of the plane the point occupies or whether it lies on the plane. The
+          sign interpretation depends on the chosen normal direction.
+        </p>
+        <h2 id="37-spline-representations">3.7 Spline representations</h2>
+        <p>
+          A spline is a curve representation built from polynomial pieces or
+          control data. Splines are used to describe smooth curves and surfaces
+          in modelling. Type Meaning Interpolation spline The curve passes
+          through the specified data points. Approximation spline
+        </p>
+        <p>
+          The curve is controlled by specified points but does not necessarily
+          pass through every control point. Interpolation is appropriate when
+          the curve must pass through measured or prescribed points.
+          Approximation is appropriate when the points should guide the overall
+          shape while maintaining a smoother or more controllable curve.
+        </p>
+        <h2 id="38-bézier-curves">3.8 Bézier curves</h2>
+        <p>
+          A Bézier curve is a parametric curve defined by control points. The
+          curve is influenced by the control polygon. For a cubic Bézier curve
+          with control points PI, P0, P1 and P2:
+          <span class="math-inline">\(B(t) = (1-t)^3 P0\)</span>
+        </p>
+        <ul>
+          <li>3(1-t)^2 t P1 + 3(1-t)t^2 P2 + t^3 P3</li>
+        </ul>
+        <p><span class="math-inline">\(0 &lt;= t &lt;= 1\)</span></p>
+        <ul>
+          <li>At t=0, B(0)=P0.</li>
+          <li>At t=1, B(1)=P3.</li>
+          <li>
+            The curve generally does not pass through the intermediate control
+            points P1 and P2.
+          </li>
+          <li>
+            P1 controls the initial direction; P1 controls the final direction.
+          </li>
+          <li>
+            The curve lies within the convex hull of its control points.
+            <strong>The Bernstein polynomial form for degree n is:</strong>
+            <span class="math-inline"
+              >\(B(t) = Σ(i=0 to n) [ C(n,i) (1-t)^(n-i) t^i Pi ]\)</span
+            >
+          </li>
+        </ul>
+        <p>
+          Bézier surfaces A Bézier surface extends the Bézier construction to a
+          two-parameter surface. A grid of control points determines the shape.
+          The surface is evaluated over parameters u and v, each typically
+          ranging from 0 to 1. The same ideas of endpoint/boundary control and
+          influence of control points apply.
+        </p>
+        <h2 id="39-visible-surface-detection">3.9 Visible-surface detection</h2>
+        <p>
+          A realistic display must determine which surfaces are visible from a
+          chosen viewpoint. These are called visible-surface detection or
+          hidden-surface elimination methods. Classification Meaning
+          Object-space method Compares objects or parts of objects within the
+          scene definition to decide which surfaces are visible. Image-space
+          method Decides visibility point by point at each pixel on the
+          projection plane. The Module 3 notes focus on two image-space methods:
+          the depth-buffer (Z-buffer) method and the scan-line method.
+          Depth-buffer (Z-buffer) method The depth buffer stores the depth
+          (z-coordinate) for each pixel. The intensity/frame buffer stores the
+          colour or intensity that will be displayed.
+          <strong>Initialise for every pixel (x,y):</strong>
+          <span class="math-inline">\(depth(x,y) = 0\)</span>
+        </p>
+        <p>
+          <span class="math-inline"
+            >\(refresh(x,y) = background intensity\)</span
+          >
+        </p>
+        <p>
+          For each polygon surface and each covered pixel: calculate surface
+          depth z
+          <strong>if z &gt; depth(x,y):</strong>
+          <span class="math-inline">\(depth(x,y) = z\)</span>
+        </p>
+        <p>
+          <span class="math-inline">\(refresh(x,y) = surface intensity\)</span>
+        </p>
+        <p>
+          The uploaded notes use this greater-than comparison and initialise
+          depth to zero. This implies their depth convention treats larger z as
+          the nearer/selected surface. Other graphics systems often use the
+          opposite convention; do not mix conventions within one calculation.
+          Advantages in notes Disadvantages in notes Easy to implement. Requires
+          large memory. Can reduce speed problems when implemented in hardware.
+          Can be time-consuming. Processes one object at a time. Scan-line
+          method The scan-line method extends polygon scan-line filling to
+          multiple surfaces. For each horizontal scan line, it examines all
+          polygon surfaces intersecting that line and determines which surface
+          is visible at each interval.
+          <strong>The notes describe two important structures:</strong>
+        </p>
+        <ul>
+          <li>
+            Edge table: records edge information used to find where polygons
+            intersect scan lines.
+          </li>
+          <li>
+            Active edge list: contains only edges crossing the current scan
+            line, sorted by increasing x.
+          </li>
+          <li>
+            Surface flags: indicate whether the current position along the scan
+            line is inside or outside a surface. As the scan line moves from
+            left to right, a surface flag is switched on at the left boundary
+            and off at the right boundary. If only one surface is active, its
+            intensity can be written directly. If multiple surfaces overlap,
+            depth calculations determine which surface is nearest to the view
+            plane. Scan-line limitations The notes state that the method can
+            process any number of overlapping polygon surfaces, but its
+            coherence logic requires care. It works when surfaces do not cut
+            through or cyclically overlap. If cyclic overlap occurs, surfaces
+            can be subdivided to remove the cyclic overlap. Depth buffer versus
+            scan-line Depth buffer Scan-line Processes surfaces and compares
+            depth at each pixel. Processes one scan line at a time. Uses a depth
+            value and intensity value for every pixel. Uses an active edge list
+            and inside/outside flags; calculates depth where surfaces overlap.
+            Straightforward and easy to implement. Uses scan-line coherence and
+            polygon edge information. Large memory requirement; can be
+            time-consuming. Needs careful handling of cyclic overlaps.
+          </li>
+        </ul>
+        <h3 id="module-3-self-check">Module 3 Self-Check</h3>
+        <ul>
+          <li>Distinguish B-Rep from space partitioning.</li>
+          <li>Explain polygon tables and mesh connectivity.</li>
+          <li>Derive a plane equation from three points.</li>
+          <li>Compare interpolation and approximation splines.</li>
+          <li>Explain cubic Bézier endpoints and control-point influence.</li>
+          <li>Distinguish object-space and image-space visibility methods.</li>
+          <li>Trace the Z-buffer update and explain the depth convention.</li>
+          <li>
+            Explain active edge lists, surface flags and overlap depth tests in
+            scan-line visibility.
+          </li>
+        </ul>
+        <h1 id="module-3-sample-examination">Module 3 — Sample Examination</h1>
+        <p>
+          <strong>QUESTIONS</strong> These are syllabus-based practice questions
+          created for revision. They are not represented as questions from an
+          actual past examination. Attempt the numerical questions on paper and
+          write descriptive answers in a structured, diagram-supported format.
+        </p>
+        <h3 id="a-short-answer-questions-23-marks-3">
+          A. Short-Answer Questions (2–3 Marks)
+        </h3>
+        <ol>
+          <li>Distinguish boundary representation from space partitioning.</li>
+          <li>
+            Define a polygon mesh. Identify its vertices, edges and faces.
+          </li>
+          <li>
+            Write the general equation of a plane and identify its normal
+            vector.
+          </li>
+          <li>Distinguish interpolation splines from approximation splines.</li>
+          <li>State two properties of a cubic Bézier curve.</li>
+          <li>
+            Distinguish object-space from image-space visible-surface detection.
+          </li>
+        </ol>
+        <h3 id="b-descriptive-essay-questions-510-marks-3">
+          B. Descriptive / Essay Questions (5–10 Marks)
+        </h3>
+        <ol start="7">
+          <li>
+            Explain how polygon surfaces are represented using vertex, edge,
+            polygon and attribute tables.
+          </li>
+          <li>
+            Explain polygon meshes and why shared vertex/edge connectivity is
+            useful in representing 3D objects.
+          </li>
+          <li>
+            Derive the equation of a plane through three non-collinear points.
+            Explain the role of the plane normal.
+          </li>
+          <li>
+            Explain interpolation and approximation splines. Discuss the purpose
+            of control points.
+          </li>
+          <li>
+            Explain cubic Bézier curves, their Bernstein polynomial form,
+            endpoint properties and control-point influence. Extend the idea to
+            Bézier surfaces.
+          </li>
+          <li>
+            Explain the depth-buffer algorithm with pseudocode, buffer
+            initialisation, depth comparison and limitations.
+          </li>
+          <li>
+            Explain the scan-line visible-surface algorithm, including the edge
+            table, active edge list and surface flags. Discuss cyclic overlap.
+          </li>
+        </ol>
+        <h3 id="c-numerical-and-algorithm-problems-3">
+          C. Numerical And Algorithm Problems
+        </h3>
+        <ol start="14">
+          <li>
+            Find the equation of the plane passing through P(1,0,0), Q(0,2,0)
+            and R(0,0,3). Identify its normal vector.
+          </li>
+          <li>
+            Determine whether points A(1,1,1), B(2,2,2) and C(0,0,0) lie on,
+            above or below the plane x+y+z−3=0. Interpret the signs.
+          </li>
+          <li>
+            A cubic Bézier curve has control points P0=(0,0), P1=(1,3),
+            P2=(4,3), P3=(5,0). Calculate B(0), B(0.5) and B(1).
+          </li>
+          <li>
+            For a pixel, the current depth-buffer value is 0.35. Three surfaces
+            produce depths 0.20, 0.60 and 0.45. Using the lecture convention
+            that larger z wins, show the buffer value after each comparison and
+            identify the visible surface.
+          </li>
+          <li>
+            A scan line intersects three polygons over x-intervals [1,7], [3,9]
+            and [5,8]. Describe where surface flags change and where depth
+            comparison is needed.
+          </li>
+        </ol>
+        <h3 id="d-extended-practice-3">D. Extended Practice</h3>
+        <ol start="19">
+          <li>
+            Compare Z-buffer and scan-line visible-surface detection in terms of
+            data structures, processing unit, memory and handling of overlapping
+            polygons.
+          </li>
+          <li>
+            Discuss how curved surfaces can be represented using splines and
+            subsequently tessellated into polygons for rendering.
+          </li>
+          <li>
+            Explain why a surface-only boundary representation and a volumetric
+            space-partition representation serve different modelling needs.
+          </li>
+        </ol>
+        <p>
+          Suggested answer discipline: define the concept, explain the mechanism
+          in sequence, include a labelled diagram or matrix where appropriate,
+          and finish with a relevant comparison, application or limitation.
+        </p>
+        <h1 id="module-4-transformation-and-viewing">
+          Module 4 — Transformation And Viewing
+        </h1>
+        <h2 id="41-three-dimensional-transformations">
+          4.1 Three-dimensional transformations
+        </h2>
+        <p>
+          A 3D object is represented by coordinates (x,y,z). Transformations
+          change its position, size or orientation. The syllabus includes
+          translation, rotation, scaling and composite transformations. Using
+          homogeneous column vectors, a 3D point is represented as
+          <span class="math-inline">\([x\ y\ z\ 1]^T\)</span> and affine
+          transformations use 4×4 matrices.
+        </p>
+        <h3 id="42-3d-translation">4.2 3D translation</h3>
+        <div class="math-display">\[T=\begin{bmatrix}1&amp;0&amp;0&amp;T_x\\0&amp;1&amp;0&amp;T_y\\0&amp;0&amp;1&amp;T_z\\0&amp;0&amp;0&amp;1\end{bmatrix},\qquad \begin{bmatrix}x'\\y'\\z'\\1\end{bmatrix}=T\begin{bmatrix}x\\y\\z\\1\end{bmatrix}\]</div>
+        <p>Every vertex is shifted by the same translation vector. Shape, size and orientation remain unchanged.</p>
+        <h3 id="43-3d-scaling">4.3 3D scaling</h3>
+        <div class="math-display">\[S=\begin{bmatrix}s_x&amp;0&amp;0&amp;0\\0&amp;s_y&amp;0&amp;0\\0&amp;0&amp;s_z&amp;0\\0&amp;0&amp;0&amp;1\end{bmatrix}\]</div>
+        <p>Equal scale factors produce uniform scaling. Different factors produce non-uniform scaling. Scaling about a fixed point uses translate-to-origin, scale, then translate-back.</p>
+        <h3 id="44-3d-rotation">4.4 3D rotation</h3>
+        <p>A 3D rotation is performed about an axis. With the usual right-handed convention and column vectors, the principal-axis matrices are:</p>
+        <div class="math-display">\[R_x(\theta)=\begin{bmatrix}1&amp;0&amp;0&amp;0\\0&amp;\cos\theta&amp;-\sin\theta&amp;0\\0&amp;\sin\theta&amp;\cos\theta&amp;0\\0&amp;0&amp;0&amp;1\end{bmatrix}\]</div>
+        <div class="math-display">\[R_y(\theta)=\begin{bmatrix}\cos\theta&amp;0&amp;\sin\theta&amp;0\\0&amp;1&amp;0&amp;0\\-\sin\theta&amp;0&amp;\cos\theta&amp;0\\0&amp;0&amp;0&amp;1\end{bmatrix}\]</div>
+        <div class="math-display">\[R_z(\theta)=\begin{bmatrix}\cos\theta&amp;-\sin\theta&amp;0&amp;0\\\sin\theta&amp;\cos\theta&amp;0&amp;0\\0&amp;0&amp;1&amp;0\\0&amp;0&amp;0&amp;1\end{bmatrix}\]</div>
+        <p>
+          A positive angle follows the right-hand rule. A rotation about an
+          arbitrary axis can be constructed from more general rotation methods,
+          but the syllabus and uploaded notes emphasise the principal
+          transformations.
+        </p>
+        <h2 id="45-composite-3d-transformations">
+          4.5 Composite 3D transformations
+        </h2>
+        <p>
+          As in 2D, combine matrices and apply them to a homogeneous point. With
+          column vectors, the rightmost transformation is applied first. The
+          order changes the result. For a sequence of translation, rotation and
+          scaling, write the matrices in the reverse order of the verbal
+          sequence.
+        </p>
+        <h2 id="46-three-dimensional-viewing-pipeline">
+          4.6 Three-dimensional viewing pipeline
+        </h2>
+        <p>
+          The uploaded Module 4 notes compare the 3D viewing pipeline with
+          taking a photograph. The sequence is: Modeling coordinates ↓ Modeling
+          transformation World coordinates ↓ Viewing transformation Viewing
+          coordinates ↓ Projection transformation Projection coordinates ↓
+          Workstation transformation Device coordinates Stage Purpose Modeling
+          coordinates Describe the shape of each individual object in its own
+          coordinate system. Modeling transformation Position, orient or scale
+          the object into the scene. World coordinates Describe objects in their
+          positions in the overall scene. Viewing transformation Set the
+          camera/viewpoint position and orientation. Viewing coordinates
+          Describe the scene relative to the camera. Projection transformation
+          Convert the 3D view into positions on a 2D projection plane.
+          Projection coordinates Coordinates on the projection plane.
+          Workstation transformation Map projection coordinates to the
+          device/display area, accounting for the screen region. Device
+          coordinates Final display coordinates. A useful analogy from the
+          notes: construct a toy (model), place it on the table (world), choose
+          where to stand (viewing), take the photograph (projection), fit the
+          photograph to the phone screen (workstation transformation), and view
+          it on the
+        </p>
+        <p>screen (device coordinates).</p>
+        <h2 id="47-projection">4.7 Projection</h2>
+        <figure aria-labelledby="projection-caption" class="figure">
+          <svg
+            aria-label="Parallel projection rays remain parallel while perspective projection rays converge at a centre of projection"
+            role="img"
+            viewBox="0 0 900 290"
+          >
+            <rect
+              class="diagram-panel"
+              height="245"
+              rx="12"
+              width="410"
+              x="20"
+              y="18"
+            ></rect>
+            <rect
+              class="diagram-panel"
+              height="245"
+              rx="12"
+              width="410"
+              x="470"
+              y="18"
+            ></rect>
+            <text
+              class="diagram-label"
+              font-weight="700"
+              text-anchor="middle"
+              x="225"
+              y="48"
+            >
+              Parallel projection
+            </text>
+            <text
+              class="diagram-label"
+              font-weight="700"
+              text-anchor="middle"
+              x="675"
+              y="48"
+            >
+              Perspective projection
+            </text>
+            <rect
+              fill="none"
+              height="105"
+              stroke="#0d9488"
+              stroke-width="3"
+              width="145"
+              x="150"
+              y="94"
+            ></rect>
+            <path
+              d="M90 75 L150 94 M90 130 L150 130 M90 185 L150 185 M90 240 L150 199"
+              fill="none"
+              stroke="var(--accent)"
+              stroke-width="2"
+            ></path>
+            <path
+              d="M90 75 L295 94 M90 130 L295 130 M90 185 L295 185 M90 240 L295 199"
+              fill="none"
+              opacity=".55"
+              stroke="var(--accent)"
+              stroke-width="2"
+            ></path>
+            <text class="diagram-small" text-anchor="middle" x="225" y="235">
+              Projectors remain parallel
+            </text>
+            <circle cx="545" cy="130" fill="#d97706" r="5"></circle>
+            <text class="diagram-small" text-anchor="middle" x="545" y="112">
+              Centre
+            </text>
+            <rect
+              fill="none"
+              height="115"
+              stroke="#0d9488"
+              stroke-width="3"
+              width="115"
+              x="710"
+              y="90"
+            ></rect>
+            <path
+              d="M545 130 L710 90 M545 130 L825 90 M545 130 L710 205 M545 130 L825 205"
+              fill="none"
+              stroke="var(--accent)"
+              stroke-width="2"
+            ></path>
+            <text class="diagram-small" text-anchor="middle" x="735" y="235">
+              Projectors converge at a centre
+            </text>
+          </svg>
+          <figcaption id="projection-caption">
+            Projection comparison — parallel projectors stay parallel;
+            perspective projectors meet at a centre of projection.
+          </figcaption>
+        </figure>
+        <p>
+          Projection converts a 3D scene into a 2D view plane. A projected point
+          is found from the intersection of a projection line with the view
+          plane. Parallel projection Perspective projection Projection lines are
+          parallel. Projection lines converge at a projection reference point
+          (centre of projection). Preserves relative proportions in the
+          projected view. Produces a more realistic sense of depth. Useful for
+          accurate views of object sides and technical drawings. Distant objects
+          appear smaller; relative proportions are not preserved. Less realistic
+          appearance. More realistic appearance. Parallel projection All
+          projection lines are parallel. In orthographic projection, the
+          projection lines are perpendicular to the view plane. In oblique
+          projection, they meet the view plane at an oblique angle. The syllabus
+          specifically requires parallel and perspective projection; know the
+          general parallel definition and be able to distinguish common forms if
+          taught. Perspective projection Projection lines pass through a single
+          centre of projection. This models the way a camera or eye sees
+          objects: objects farther away appear smaller. It is visually
+          realistic, but dimensions and relative proportions are not preserved
+          in the same way as parallel projection.
+        </p>
+        <h2 id="48-opengl-primitives">4.8 OpenGL primitives</h2>
+        <p>
+          OpenGL primitives are basic geometric drawing units. More complex
+          objects are assembled from points, lines, triangles and other
+          primitives. Primitive Meaning
+        </p>
+        <p><strong>GL_POINTS</strong> Draws individual points.</p>
+        <p>
+          <strong>GL_LINES</strong>
+          <code
+            >Draws independent line segments, using each pair of vertices.</code
+          >
+        </p>
+        <p>
+          <strong>GL_LINE_STRIP</strong> Connects successive vertices with a
+          continuous line.
+        </p>
+        <p>
+          <strong>GL_LINE_LOOP</strong> Like a line strip, but connects the last
+          vertex back to the first.
+        </p>
+        <p>
+          <strong>GL_TRIANGLES</strong> Draws independent triangles, one group
+          of three vertices at a time.
+        </p>
+        <p>
+          <strong>GL_TRIANGLE_STRIP</strong> Draws connected triangles sharing
+          vertices.
+        </p>
+        <p>
+          <strong>GL_TRIANGLE_FAN</strong> Draws triangles radiating from a
+          central vertex.
+        </p>
+        <p>
+          <strong>GL_QUADS</strong> Draws quadrilaterals from groups of four
+          vertices; deprecated in modern core OpenGL.
+        </p>
+        <p>
+          <strong>GL_QUAD_STRIP</strong> Connects quadrilaterals in a strip.
+        </p>
+        <p>
+          <strong>GL_POLYGON</strong> Draws a polygon from multiple vertices in
+          the legacy immediate-mode API.
+        </p>
+        <h2 id="49-common-opengl-functions-in-the-lecture-notes">
+          4.9 Common OpenGL functions in the lecture notes
+        </h2>
+        <p>Function Purpose glBegin(mode)</p>
+        <p>Begins specifying a primitive. glEnd()</p>
+        <p>Ends the primitive specification. glVertex2f(x,y)</p>
+        <p>Specifies a 2D vertex. glVertex3f(x,y,z)</p>
+        <p>
+          Specifies a 3D vertex. glColor3f(r,g,b) Sets RGB colour; values are
+          conventionally in the range 0 to 1 in the examples.
+          glClearColor(r,g,b,a) Sets the background clear colour.
+          glClear(GL_COLOR_BUFFER_BIT) Clears the colour buffer. glFlush()
+          Forces execution of queued OpenGL commands. glTranslatef(x,y,z)
+          Applies translation. glRotatef(angle,x,y,z) Applies rotation about the
+          specified axis. glScalef(x,y,z) Applies scaling.
+          glViewport(x,y,width,height) Defines the display area within the
+          window.
+        </p>
+        <p>
+          The glBegin/glEnd and fixed-function calls are legacy immediate-mode
+          OpenGL. They are appropriate to recognise and
+        </p>
+        <p>
+          reproduce for the style of sample program in the supplied notes, but
+          modern core-profile OpenGL uses shaders, buffers and vertex array
+          objects instead.
+        </p>
+        <h2 id="410-opengl-rendering-pipeline">
+          4.10 OpenGL rendering pipeline
+        </h2>
+        <p>
+          The rendering pipeline converts geometric input into pixels displayed
+          on screen. Vertex specification ↓
+          <code>Vertex processing</code>
+          ↓ Primitive assembly ↓ Rasterization ↓
+          <code>Fragment processing</code>
+          ↓ Frame-buffer operations ↓ Display
+        </p>
+        <ul>
+          <li>
+            Vertex specification: supply vertex coordinates and attributes such
+            as colour, normal and texture coordinates.
+          </li>
+          <li>
+            Vertex processing: transform vertices using model, view and
+            projection transformations; the notes also mention per-vertex
+            lighting.
+          </li>
+          <li>
+            Primitive assembly: group vertices into points, lines, triangles or
+            other selected primitives.
+          </li>
+          <li>
+            Rasterization: convert geometric primitives into fragments
+            corresponding to candidate screen pixels.
+          </li>
+          <li>
+            Fragment processing: apply colour, texture and lighting calculations
+            to fragments.
+          </li>
+          <li>
+            Frame-buffer operations: write final colour values to the frame
+            buffer for display.
+          </li>
+        </ul>
+        <h2 id="411-opengl-sample-programs">4.11 OpenGL sample programs</h2>
+        <h3 id="draw-a-2d-triangle-legacy-immediate-mode">Draw a 2D triangle (legacy immediate mode)</h3>
+        <ol class="code-steps">
+          <li><code>glBegin(GL_TRIANGLES);</code></li>
+          <li><code>glColor3f(1.0, 0.0, 0.0); // red</code></li>
+          <li><code>glVertex2f(0.0, 0.5);</code></li>
+          <li><code>glVertex2f(-0.5, -0.5);</code></li>
+          <li><code>glVertex2f(0.5, -0.5);</code></li>
+          <li><code>glEnd();</code></li>
+          <li><code>glFlush();</code></li>
+        </ol>
+        <p>
+          Three vertices are supplied, so <code>GL_TRIANGLES</code> produces
+          one triangle. The colour is set before the vertices.
+        </p>
+        <h3 id="draw-one-face-of-a-3d-cube">Draw one face of a 3D cube</h3>
+        <ol class="code-steps">
+          <li><code>glBegin(GL_QUADS);</code></li>
+          <li><code>// Front face</code></li>
+          <li><code>glVertex3f(-0.5, -0.5, 0.5);</code></li>
+          <li><code>glVertex3f(0.5, -0.5, 0.5);</code></li>
+          <li><code>glVertex3f(0.5, 0.5, 0.5);</code></li>
+          <li><code>glVertex3f(-0.5, 0.5, 0.5);</code></li>
+          <li><code>glEnd();</code></li>
+          <li><code>glFlush();</code></li>
+        </ol>
+        <p>
+          The lecture notes indicate that the remaining faces are specified
+          similarly. A complete cube requires all six faces, with consistent
+          vertex order.
+        </p>
+        <h3 id="colour-and-lighting">Colour and lighting</h3>
+        <ul>
+          <li>
+            Colour can be assigned using glColor3f(r,g,b) in the legacy
+            examples.
+          </li>
+          <li>The notes identify ambient, diffuse and specular lighting.</li>
+          <li>
+            The notes show glEnable(GL_LIGHTING) and glEnable(GL_LIGHT0) as
+            examples of enabling lighting and a light source in the legacy API.
+          </li>
+        </ul>
+        <h3 id="module-4-self-check">Module 4 Self-Check</h3>
+        <ul>
+          <li>
+            Write the 4×4 translation, scaling and principal-axis rotation
+            matrices.
+          </li>
+          <li>Explain why transformation order matters.</li>
+          <li>Reproduce the eight-stage 3D viewing pipeline.</li>
+          <li>Compare parallel and perspective projection.</li>
+          <li>
+            Identify common OpenGL primitives and how their vertices are
+            grouped.
+          </li>
+          <li>Explain the rendering pipeline in order.</li>
+          <li>
+            Write and annotate the supplied 2D triangle and 3D face examples.
+          </li>
+        </ul>
+        <h1 id="module-4-sample-examination">Module 4 — Sample Examination</h1>
+        <p>
+          <strong>QUESTIONS</strong> These are syllabus-based practice questions
+          created for revision. They are not represented as questions from an
+          actual past examination. Attempt the numerical questions on paper and
+          write descriptive answers in a structured, diagram-supported format.
+        </p>
+        <h3 id="a-short-answer-questions-23-marks-4">
+          A. Short-Answer Questions (2–3 Marks)
+        </h3>
+        <ol>
+          <li>Write the homogeneous representation of a 3D point.</li>
+          <li>
+            State the purpose of the 3D modelling, viewing, projection and
+            workstation transformations.
+          </li>
+          <li>Distinguish parallel and perspective projection.</li>
+          <li>
+            What is the difference between orthographic and oblique parallel
+            projection?
+          </li>
+          <li>
+            What is a rendering pipeline? Define rasterisation and fragment
+            processing.
+          </li>
+          <li>
+            State the function of GL_POINTS, GL_LINES, GL_LINE_STRIP and
+            GL_TRIANGLES.
+          </li>
+        </ol>
+        <h3 id="b-descriptive-essay-questions-510-marks-4">
+          B. Descriptive / Essay Questions (5–10 Marks)
+        </h3>
+        <ol start="7">
+          <li>
+            Derive the 4×4 homogeneous matrices for 3D translation and scaling.
+          </li>
+          <li>
+            Explain rotation about the x-, y- and z-axes with matrices and
+            diagrams.
+          </li>
+          <li>
+            Explain composite 3D transformations and demonstrate why their order
+            matters.
+          </li>
+          <li>
+            Describe the complete 3D viewing pipeline from modelling coordinates
+            to device coordinates.
+          </li>
+          <li>
+            Explain parallel and perspective projections with diagrams,
+            advantages, limitations and applications.
+          </li>
+          <li>
+            Explain the OpenGL rendering pipeline from vertex specification to
+            frame-buffer operations.
+          </li>
+          <li>
+            Describe the OpenGL primitives and the purpose of the common
+            functions used in the lecture examples.
+          </li>
+        </ol>
+        <p>
+          C. Numerical and programming problems 14. Translate point P(2,−1,3) by
+          (4,2,−5). Express the operation using a 4×4 matrix. 15. Scale point
+          P(2,3,4) by sx=2, sy=0.5 and sz=3. Find the transformed point. 16.
+          Rotate P(0,1,0) by 90° about the x-axis and then by 90° about the
+          z-axis. Show the intermediate and final coordinates. 17. Apply scaling
+          (2,1,3), then rotation of 90° about z, then translation (1,2,0) to
+          P(1,1,1). Construct the composite matrix in the correct order. 18.
+          Write a legacy OpenGL program fragment to draw a red triangle using
+          GL_TRIANGLES. Annotate each function call. 19. Write a legacy OpenGL
+          program fragment to specify the four vertices of one face of a cube
+          using GL_QUADS. Explain how the remaining faces are supplied.
+        </p>
+        <h3 id="d-extended-practice-4">D. Extended Practice</h3>
+        <ol start="20">
+          <li>
+            Compare parallel and perspective projection, including the effect of
+            depth on apparent size and dimensional accuracy.
+          </li>
+          <li>
+            Explain the analogy between taking a photograph and the stages of
+            the 3D viewing pipeline.
+          </li>
+          <li>
+            Discuss the distinction between the legacy immediate-mode OpenGL
+            examples in the notes and the broad stages of the rendering
+            pipeline.
+          </li>
+        </ol>
+        <p>
+          Suggested answer discipline: define the concept, explain the mechanism
+          in sequence, include a labelled diagram or matrix where appropriate,
+          and finish with a relevant comparison, application or limitation.
+        </p>
+        <h1 id="module-5-introduction-to-multimedia-systems">
+          Module 5 — Introduction to Multimedia Systems
+        </h1>
+        <h2 id="51-multimedia">5.1 Multimedia</h2>
+        <p>
+          Multimedia is the integration of multiple media forms—text, graphics,
+          images, audio, video and animation—into one system to communicate
+          information interactively. It allows information to be perceived
+          through multiple sensory channels and is widely used in education,
+          entertainment and information systems.
+        </p>
+        <h2 id="52-components-of-multimedia">5.2 Components of multimedia</h2>
+        <p>
+          Component Description / role Text
+          <code>Commonly stored using ASCII or Unicode; used for labels,</code>
+          descriptions and instructions. Graphics/images Raster images are
+          pixel-based; vector graphics are described mathematically. They
+          support visualisation and explanation. Audio Music, speech and sound
+          effects; conveys information, emotion, alerts or instructions. Video
+          Moving images, often combined with audio; used in films, training and
+          advertisements. Animation A sequence of images that creates the
+          illusion of motion; used in simulation, tutorials and entertainment.
+        </p>
+        <h2 id="53-discrete-and-continuous-media">
+          5.3 Discrete and continuous media
+        </h2>
+        <p>
+          Discrete media Continuous media Time-independent. Time-dependent. Can
+          be accessed in arbitrary order; timing is not critical. Must be played
+          or processed in sequence at an appropriate rate. Examples: text and
+          still images. Examples: audio and video. A downloadable image can be
+          retrieved as a complete object; a live audio stream must be delivered
+          and played in time. This is the key distinction.
+        </p>
+        <h2 id="54-data-streams">5.4 Data streams</h2>
+        <p>
+          A data stream is a continuous flow of data that must be transmitted,
+          received or processed in sequence. In multimedia, streams commonly
+          carry time-dependent audio, video or interactive content.
+          Time-dependent / continuous stream
+        </p>
+        <p>
+          Time-independent / discrete stream Must be processed at a steady rate.
+          Timing is not critical. Delay or packet loss can cause lag, stutter or
+          errors. Can generally be processed in any order. Examples: video
+          streaming and live music. Examples: downloadable images and text
+          documents. Properties of multimedia systems
+        </p>
+        <ul>
+          <li>
+            Integration of media: combines multiple media types, such as images,
+            narration and video.
+          </li>
+          <li>
+            Interactivity: allows users to pause, skip, control playback or
+            choose navigation paths.
+          </li>
+          <li>
+            Temporal properties: time-sensitive synchronisation; for example,
+            narration must match video actions.
+          </li>
+          <li>
+            Spatial properties: visual layout affects readability and
+            comprehension; text and charts must be arranged appropriately.
+          </li>
+          <li>
+            Real-time constraints: continuous media needs steady delivery;
+            buffering helps reduce lag and jitter.
+          </li>
+          <li>
+            Distributed nature: streams may come from multiple sources or
+            network locations and need coordination/synchronisation. Traditional
+            data stream characteristics
+          </li>
+          <li>Continuity: data flows continuously without interruption.</li>
+          <li>
+            Sequential access: data is accessed in order rather than randomly.
+          </li>
+          <li>
+            Large volume: audio and video can require substantial storage.
+          </li>
+          <li>
+            Time sensitivity: each unit has timing/sequence information; delays
+            affect playback quality.
+          </li>
+          <li>
+            Buffering: temporary storage handles variations in transmission or
+            processing rate.
+          </li>
+          <li>
+            Examples: broadcast television, FM radio, early video streaming and
+            sequentially delivered lectures.
+          </li>
+        </ul>
+        <h2 id="55-music-and-digitisation">5.5 Music and digitisation</h2>
+        <p>
+          Music is a structured sequence of sounds conveying rhythm, melody and
+          harmony. An analogue audio waveform is continuous. To store it
+          digitally, it is sampled, quantised and encoded. Stage What happens
+          Sampling
+          <code
+            >Measure the analogue signal at uniform time intervals.
+            Sampling</code
+          >
+          rate affects the representation of the waveform. CD-quality audio uses
+          44.1 kHz (44,100 samples per second). Quantisation Map each sampled
+          amplitude to a discrete value. The number of levels affects precision
+          and file size. Encoding Convert quantised values into binary for
+          storage. The notes list WAV as uncompressed audio, MP3 as compressed
+          audio and MIDI as a symbolic representation. Digital music is easy to
+          store, edit and transmit, and can be reproduced with high fidelity.
+        </p>
+        <h2 id="56-speech">5.6 Speech</h2>
+        <p>
+          Speech is the vocalised form of human language. Multimedia systems
+          process it for communication, recognition and synthesis.
+          Text-to-speech (TTS)
+          <code
+            >Text preprocessing → Phonetic conversion → Prosody generation →
+            Sound synthesis</code
+          >
+        </p>
+        <p>
+          TTS converts written text into a natural-sounding voice. Automatic
+          speech recognition (ASR)
+          <code
+            >Audio input → Feature extraction → Pattern matching → Text
+            output</code
+          >
+        </p>
+        <p>
+          ASR converts spoken words into text. Voice assistants are examples.
+          Speech signal characteristics
+        </p>
+        <ul>
+          <li>
+            The lecture notes give a speech frequency range of approximately
+            300–3400 Hz.
+          </li>
+          <li>
+            Speech has a lower data rate than music in the comparison provided.
+          </li>
+          <li>Noise filtering may be needed for clarity.</li>
+          <li>
+            <p>Speech is time-dependent and sequential.</p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Aspect</th>
+                    <th>Music (notes)</th>
+                    <th>Speech (notes)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Frequency range</td>
+                    <td>Wide: 20–20,000 Hz</td>
+                    <td>Narrow: 300–3400 Hz</td>
+                  </tr>
+                  <tr>
+                    <td>Data rate</td>
+                    <td>High</td>
+                    <td>Moderate</td>
+                  </tr>
+                  <tr>
+                    <td>Structure</td>
+                    <td>Rhythmic and harmonic</td>
+                    <td>Linguistic and structured</td>
+                  </tr>
+                  <tr>
+                    <td>Main application</td>
+                    <td>Entertainment</td>
+                    <td>Communication</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </li>
+        </ul>
+        <h2 id="57-digital-images">5.7 Digital images</h2>
+        <p>
+          A digital image represents a visual scene using a grid of pixels. Each
+          pixel has a coordinate (x,y) and a colour/intensity value. Property
+          Meaning Pixel Smallest unit of a digital image. Resolution Number of
+          pixels along width and height. Higher resolution can provide more
+          spatial detail. Colour depth / bit depth Number of bits used per
+          pixel; determines the number of representable colours. 24-bit RGB
+        </p>
+        <p>
+          <code
+            >8 bits per red, green and blue channel; 2^24 possible
+            combinations,</code
+          >
+          approximately 16.7 million colours. Colour models
+        </p>
+        <ul>
+          <li>RGB: red, green and blue; commonly used for displays.</li>
+          <li>
+            CMY/CMYK: cyan, magenta, yellow and (in CMYK) black; used in
+            printing. Image file formats
+          </li>
+        </ul>
+        <p>Format Key property in the notes</p>
+        <p><strong>BMP</strong> Bitmap; uncompressed; stores pixel values.</p>
+        <p><strong>JPEG</strong> Lossy compression; reduces storage size.</p>
+        <p><strong>PNG</strong> Lossless compression; supports transparency.</p>
+        <p>
+          <strong>GIF</strong> Limited colour palette; supports animation. Image
+          file size depends on resolution, colour depth and compression.
+          Applications include web graphics, medical imaging, animation and
+          simulations.
+        </p>
+        <h2 id="58-data-compression">5.8 Data compression</h2>
+        <p>
+          Data compression reduces file size by eliminating redundancy while
+          retaining essential information. It is important because multimedia
+          files can be large. Why compression matters
+        </p>
+        <ul>
+          <li>Reduces storage space.</li>
+          <li>
+            Allows faster transmission and reduces bandwidth requirements.
+          </li>
+          <li>Reduces storage and transmission costs.</li>
+          <li>
+            Can improve loading, decoding and rendering performance. Coding
+            requirements for multimedia
+          </li>
+          <li>Efficiency: reduce size without unacceptable quality loss.</li>
+          <li>
+            Fast encoding and decoding: important for real-time applications.
+          </li>
+          <li>
+            Quality preservation: perceived quality should remain acceptable,
+            particularly for lossy coding.
+          </li>
+          <li>Error resilience: tolerate minor transmission errors.</li>
+          <li>
+            Scalability: support multiple resolutions or bit rates. Lossless and
+            lossy compression Feature Lossless Lossy Data loss None. Some
+            information is discarded. Reconstruction Exact original can be
+            reconstructed. Approximate reconstruction; discarded information
+            cannot be recovered. Compression ratio Usually moderate. Can be
+            high. Examples in notes RLE, Huffman coding, LZW; PNG and ZIP.
+            DCT/transform coding, predictive coding,
+          </li>
+        </ul>
+        <p>
+          quantisation; JPEG, MP3 and H.261. Typical suitability Text and
+          data/images where exactness matters. Audio, video and images where
+          some loss is acceptable.
+        </p>
+        <h2 id="59-jpeg-image-compression">5.9 JPEG image compression</h2>
+        <p>
+          JPEG is a lossy image compression standard intended to reduce file
+          size while retaining visually acceptable quality. JPEG pipeline RGB
+          image ↓ Convert RGB to YCbCr ↓ Divide image into 8 × 8 blocks ↓
+          <code>Discrete Cosine Transform (DCT)</code>
+          ↓ Quantisation ↓ Entropy coding (e.g. Huffman) ↓ Compressed JPEG image
+        </p>
+        <ul>
+          <li>
+            Colour-space conversion: RGB is converted to YCbCr. Y represents
+            luminance (brightness); Cb and Cr represent chrominance (colour
+            information). The notes explain that human vision is more sensitive
+            to brightness than colour differences.
+          </li>
+          <li>Block splitting: image data is processed in 8×8 pixel blocks.</li>
+          <li>
+            DCT: transforms each block into frequency components. Low
+            frequencies carry much of the image's important visual information.
+          </li>
+          <li>
+            Quantisation: reduces or removes high-frequency components. This is
+            the lossy step.
+          </li>
+          <li>
+            Entropy coding: Huffman coding or another entropy coder represents
+            the quantised values efficiently. The notes give a typical
+            compression ratio of 10:1 to 20:1. JPEG is widely supported and
+            often visually acceptable, but repeated lossy recompression degrades
+            quality. It is unsuitable when exact image reproduction is required.
+          </li>
+        </ul>
+        <h2 id="510-h261-video-compression">5.10 H.261 video compression</h2>
+        <p>
+          H.261 is a video compression standard designed for video conferencing
+          over ISDN networks, with the notes giving a target range of 64 kbps to
+          2 Mbps. Key ideas
+        </p>
+        <ul>
+          <li>
+            Macroblocks: video is divided into 16×16 pixel macroblocks for
+            spatial compression.
+          </li>
+          <li>
+            Intra-frame compression: compresses a frame independently using
+            DCT-based methods.
+          </li>
+          <li>
+            Inter-frame compression: exploits similarities between successive
+            frames using motion estimation and motion compensation.
+          </li>
+          <li>
+            Motion compensation: predicts the current frame from previous frames
+            and transmits the differences rather than repeatedly sending all
+            image information. Applications include video conferencing, video
+            telephony and low-bandwidth streaming. The notes identify reduced
+          </li>
+        </ul>
+        <p>
+          bandwidth and real-time transmission as advantages, and its age/lower
+          efficiency than modern standards such as
+          <strong>H.264</strong>
+          and H.265 as limitations.
+        </p>
+        <h2 id="511-animation">5.11 Animation</h2>
+        <p>
+          Animation creates the illusion of motion by displaying a sequence of
+          still images (frames) rapidly over time. Basic animation workflow
+          Planning / storyboarding ↓ Keyframe creation ↓ Tweening
+          (in-betweening) ↓ Rendering
+        </p>
+        <ul>
+          <li>
+            Planning/storyboarding: define the sequence of events and movement.
+          </li>
+          <li>
+            Keyframes: specify important positions or states of an object.
+          </li>
+          <li>Tweening: generate intermediate frames between keyframes.</li>
+          <li>
+            Rendering: produce displayable frames with colour, shading and
+            effects.
+          </li>
+        </ul>
+        <h2 id="512-tweening">5.12 Tweening</h2>
+        <p>
+          Tweening (in-betweening) automatically generates intermediate frames
+          between two keyframes to create smooth motion or transformation. Type
+          Description Example Motion tweening Moves an object from one position
+          to another. A car travelling along a road. Shape tweening Gradually
+          transforms an object's shape. A circle changing into a square.
+          Tweening reduces manual effort because the animator defines keyframes
+          rather than drawing every frame. It is used in presentations, games
+          and animation tools.
+        </p>
+        <h2 id="513-morphing">5.13 Morphing</h2>
+        <p>
+          Morphing is the gradual transformation of one image or shape into
+          another over a sequence of frames.
+        </p>
+        <ol>
+          <li>Identify corresponding features/control points.</li>
+          <li>Interpolate between source and target shapes/colours.</li>
+          <li>
+            Render the intermediate frames in sequence. Applications include
+            film effects, facial animation and educational visualisations.
+            Tweening Morphing Typically object-based: position, size or colour
+            changes between keyframes. Transforms image/shape features, often
+            between different objects.
+          </li>
+        </ol>
+        <p>
+          Tweening Morphing May move an unchanged object through space. Changes
+          the form or visual identity of the source towards a target.
+        </p>
+        <h2 id="514-simulating-acceleration-and-deceleration">
+          5.14 Simulating acceleration and deceleration
+        </h2>
+        <p>
+          Constant-speed motion uses equal displacement per frame. Realistic
+          motion often requires speed to vary. Motion Displacement per frame
+          Example Linear / constant speed Equal displacement. Object moves
+          steadily. Acceleration Displacement increases over successive frames.
+          Car starting from rest. Deceleration Displacement decreases over
+          successive frames. Car braking to a stop. Timing functions or easing
+          equations adjust frame spacing. The notes list linear, quadratic,
+          cubic and exponential
+          <code>easing.</code>
+          Acceleration and deceleration make motion appear more natural and can
+          help simulate physical behaviour.
+        </p>
+        <h2 id="515-motion-specification">5.15 Motion specification</h2>
+        <p>
+          Motion specification defines how and where objects move in an
+          animation or multimedia scene. Method Description Example Path-based
+          Object follows a predefined path. Ball rolling along a curved track.
+          Keyframe-based Only key positions are defined; intermediate frames are
+          interpolated. Character moves from one pose to another. Procedural /
+          kinematic
+          <code>Motion is generated using mathematical</code>
+          formulas or physics simulations. Gravity, bouncing or spinning.
+          Dynamic Motion reacts to forces or interactions in real time. Particle
+          systems or interactive simulations. Motion specification supports
+          realistic animation, interactive control and complex motion patterns
+          while reducing the need to create every frame manually.
+        </p>
+        <h3 id="module-5-self-check">Module 5 Self-Check</h3>
+        <ul>
+          <li>
+            Classify text, still images, audio and video as discrete or
+            continuous media.
+          </li>
+          <li>
+            Explain the temporal, spatial, interactive and real-time properties
+            of multimedia.
+          </li>
+          <li>
+            Describe sampling, quantisation and encoding in the correct order.
+          </li>
+          <li>
+            Compare music and speech using the ranges and characteristics in the
+            notes.
+          </li>
+          <li>
+            Calculate the number of colours represented by a given bit depth.
+          </li>
+          <li>Compare lossless and lossy compression.</li>
+          <li>Reproduce the JPEG pipeline and identify the lossy stage.</li>
+          <li>
+            Explain macroblocks, intra-frame and inter-frame compression in
+            H.261.
+          </li>
+          <li>
+            Distinguish tweening, morphing, acceleration/deceleration and motion
+            specification methods.
+          </li>
+        </ul>
+        <h1 id="module-5-sample-examination">Module 5 — Sample Examination</h1>
+        <p>
+          <strong>QUESTIONS</strong> These are syllabus-based practice questions
+          created for revision. They are not represented as questions from an
+          actual past examination. Attempt the numerical questions on paper and
+          write descriptive answers in a structured, diagram-supported format.
+        </p>
+        <h3 id="a-short-answer-questions-23-marks-5">
+          A. Short-Answer Questions (2–3 Marks)
+        </h3>
+        <ol>
+          <li>Define multimedia and list its principal components.</li>
+          <li>
+            Distinguish discrete media from continuous media with examples.
+          </li>
+          <li>Define a data stream. What is buffering?</li>
+          <li>Define sampling, quantisation and encoding.</li>
+          <li>What is the difference between RGB and CMYK?</li>
+          <li>Distinguish lossless and lossy compression.</li>
+          <li>What is a macroblock in H.261?</li>
+          <li>Distinguish tweening from morphing.</li>
+        </ol>
+        <h3 id="b-descriptive-essay-questions-510-marks-5">
+          B. Descriptive / Essay Questions (5–10 Marks)
+        </h3>
+        <ol start="9">
+          <li>
+            Explain the properties of multimedia systems, including integration,
+            interactivity, temporal and spatial properties, real-time
+            constraints and buffering.
+          </li>
+          <li>
+            Explain traditional data-stream characteristics and why continuous
+            media requires sequential delivery and synchronisation.
+          </li>
+          <li>
+            Describe the digitisation of music. Explain sampling, quantisation
+            and encoding, with suitable examples.
+          </li>
+          <li>
+            Explain speech generation (TTS) and automatic speech recognition
+            (ASR). Compare music and speech using the characteristics in the
+            notes.
+          </li>
+          <li>
+            Explain digital image representation, resolution, colour depth,
+            RGB/CMYK colour models and common image formats.
+          </li>
+          <li>
+            Compare lossless and lossy compression. Discuss the coding
+            requirements for multimedia.
+          </li>
+          <li>
+            Explain JPEG compression step by step. Identify the lossy stage and
+            explain the role of DCT and quantisation.
+          </li>
+          <li>
+            Explain H.261 video compression, macroblocks, intra-frame
+            compression, inter-frame compression, motion estimation and motion
+            compensation.
+          </li>
+          <li>
+            Explain the animation workflow, keyframes, tweening and morphing
+            with examples.
+          </li>
+          <li>
+            Discuss acceleration/deceleration and the four motion-specification
+            methods.
+          </li>
+        </ol>
+        <h3 id="c-numerical-and-applied-problems">
+          C. Numerical And Applied Problems
+        </h3>
+        <ol start="19">
+          <li>
+            An uncompressed 1920×1080 image uses 24 bits per pixel. Calculate
+            its size in bits, bytes and MiB (use 1
+            <span class="math-inline">\(MiB=1,048,576 bytes).\)</span>
+          </li>
+          <li>
+            An audio signal is sampled at 44.1 kHz using 16 bits per sample and
+            two channels. Calculate the uncompressed data rate in bits per
+            second and bytes per second, ignoring headers.
+          </li>
+          <li>
+            A 12 MB image is compressed to 1.2 MB. Calculate the compression
+            ratio and percentage reduction in size.
+          </li>
+          <li>
+            A video stream is transmitted at 1.5 Mbps for 60 seconds. Calculate
+            the total data transferred in megabits and decimal megabytes,
+            ignoring overhead.
+          </li>
+          <li>
+            An animation moves an object from x=0 to x=100 over five equal time
+            intervals. Give frame positions for constant-speed motion, then give
+            one possible accelerating sequence with increasing displacement.
+          </li>
+          <li>
+            An image is divided into 8×8 JPEG blocks. How many blocks are
+            required for a 640×480 image if its dimensions are exact multiples
+            of 8?
+          </li>
+        </ol>
+        <h3 id="d-extended-practice-5">D. Extended Practice</h3>
+        <ol start="25">
+          <li>
+            <p>
+              Compare JPEG and H.261 in terms of media type, compression
+              approach, temporal redundancy and applications.
+            </p>
+          </li>
+          <li>
+            <p>
+              Explain why quantisation is the lossy stage in JPEG and why
+              entropy coding itself does not normally discard information.
+            </p>
+          </li>
+          <li>
+            <p>
+              Discuss the role of buffering and synchronisation in continuous
+              multimedia streams. What user-visible problems arise when delivery
+              is irregular?
+            </p>
+          </li>
+          <li>
+            <p>
+              Compare path-based, keyframe-based, procedural/kinematic and
+              dynamic motion specification, using one application for each.
+            </p>
+          </li>
+        </ol>
+        <p>
+          Suggested answer discipline: define the concept, explain the mechanism
+          in sequence, include a labelled diagram or matrix where appropriate,
+          and finish with a relevant comparison, application or limitation.
+        </p>
+        <h3 id="integrated-exam-reference">Integrated Exam Reference</h3>
+        <p>
+          Use this index to connect the major examinable problem types across
+          the five modules. For each answer, identify the method, show the
+          working or processing stages, and state the result or implication.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Module</th>
+                <th>Core examinable areas</th>
+                <th>Answer approach</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Module 1 — Rasterisation</td>
+                <td>DDA; Bresenham line; Bresenham circle; midpoint ellipse</td>
+                <td>
+                  Give the input coordinates or radii, initialise the decision
+                  variable, show each iteration and list the selected pixels.
+                </td>
+              </tr>
+              <tr>
+                <td>Module 2 — 2D graphics</td>
+                <td>
+                  Homogeneous transformations; composite transforms;
+                  window-to-viewport mapping; Cohen–Sutherland;
+                  Sutherland–Hodgman
+                </td>
+                <td>
+                  State the coordinate convention and matrix order; show the
+                  clipping tests or matrix products and the final geometry.
+                </td>
+              </tr>
+              <tr>
+                <td>Module 3 — 3D representation and visibility</td>
+                <td>
+                  Polygon meshes and tables; plane equations; spline and Bézier
+                  representations; Z-buffer; scan-line visibility
+                </td>
+                <td>
+                  Define the representation or visibility rule, identify the
+                  data involved and explain how the method resolves the geometry
+                  or visible surface.
+                </td>
+              </tr>
+              <tr>
+                <td>Module 4 — 3D transformations and viewing</td>
+                <td>
+                  3D translation, rotation and scaling; composite transforms;
+                  parallel and perspective projection; OpenGL pipeline
+                </td>
+                <td>
+                  Show the transformation/projection model and matrix order;
+                  distinguish the lecture's legacy OpenGL calls from modern
+                  core-profile practice.
+                </td>
+              </tr>
+              <tr>
+                <td>Module 5 — Multimedia</td>
+                <td>
+                  Media streams; digitisation; image representation; JPEG;
+                  H.261; animation; tweening; morphing
+                </td>
+                <td>
+                  Trace processing stages in order and identify
+                  sampling/quantisation, compression, redundancy, temporal
+                  behaviour and synchronisation where relevant.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          <strong>Numerical-answer checklist: </strong>write the given data →
+          state the governing equation or algorithm → initialise values → show
+          substitutions/iterations → state the final result with units or
+          coordinates → check reasonableness.
+        </p>
+        <h3 id="formula-sheet">Formula Sheet</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Topic</th>
+                <th>Formula / rule</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Line slope</td>
+                <td>
+                  <span class="math-inline"
+                    >\(m=\dfrac{\Delta y}{\Delta x}\)</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>DDA steps</td>
+                <td>
+                  <span class="math-inline"
+                    >\(N=\max(|\Delta x|,|\Delta y|)\)</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>DDA increments</td>
+                <td>
+                  <span class="math-inline"
+                    >\(\Delta x_{\mathrm{step}}=\dfrac{x_1-x_0}{N},\quad \Delta
+                    y_{\mathrm{step}}=\dfrac{y_1-y_0}{N}\)</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Bresenham line, first octant</td>
+                <td>
+                  <span class="math-inline">\(p_0=2\Delta y-\Delta x\)</span>.
+                  If <span class="math-inline">\(p_k&lt;0\)</span>, choose E and
+                  add <span class="math-inline">\(2\Delta y\)</span>; otherwise
+                  choose NE and add
+                  <span class="math-inline">\(2\Delta y-2\Delta x\)</span>.
+                </td>
+              </tr>
+              <tr>
+                <td>Circle</td>
+                <td>
+                  <span class="math-inline">\(x^2+y^2=r^2\)</span>, with common
+                  midpoint initial decision parameter
+                  <span class="math-inline">\(p_0=3-2r\)</span>.
+                </td>
+              </tr>
+              <tr>
+                <td>Ellipse</td>
+                <td>
+                  <span class="math-inline"
+                    >\(\dfrac{x^2}{r_x^2}+\dfrac{y^2}{r_y^2}=1\)</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Ellipse region switch</td>
+                <td><span class="math-inline">\(2r_y^2x\ge 2r_x^2y\)</span></td>
+              </tr>
+              <tr>
+                <td>2D translation</td>
+                <td>
+                  <span class="math-inline">\(x'=x+T_x,\quad y'=y+T_y\)</span>
+                </td>
+              </tr>
+              <tr>
+                <td>2D scaling</td>
+                <td>
+                  <span class="math-inline">\(x'=s_xx,\quad y'=s_yy\)</span>
+                </td>
+              </tr>
+              <tr>
+                <td>2D rotation</td>
+                <td>
+                  <span class="math-inline"
+                    >\(x'=x\cos\theta-y\sin\theta,\quad
+                    y'=x\sin\theta+y\cos\theta\)</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Fixed-point scaling</td>
+                <td>
+                  <span class="math-inline"
+                    >\(x'=s_xx+x_f(1-s_x),\quad y'=s_yy+y_f(1-s_y)\)</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Window/viewport scale</td>
+                <td>
+                  <span class="math-inline"
+                    >\(s_x=\dfrac{x_{v\max}-x_{v\min}}{x_{w\max}-x_{w\min}},\quad
+                    s_y=\dfrac{y_{v\max}-y_{v\min}}{y_{w\max}-y_{w\min}}\)</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Window/viewport map</td>
+                <td>
+                  <span class="math-inline"
+                    >\(x_v=x_{v\min}+(x_w-x_{w\min})s_x,\quad
+                    y_v=y_{v\min}+(y_w-y_{w\min})s_y\)</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Plane</td>
+                <td><span class="math-inline">\(Ax+By+Cz+D=0\)</span></td>
+              </tr>
+              <tr>
+                <td>Cubic Bézier curve</td>
+                <td>
+                  <span class="math-inline"
+                    >\(B(t)=(1-t)^3P_0+3(1-t)^2tP_1+3(1-t)t^2P_2+t^3P_3\)</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>3D translation</td>
+                <td>
+                  <span class="math-inline"
+                    >\(x'=x+T_x,\quad y'=y+T_y,\quad z'=z+T_z\)</span
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>24-bit RGB</td>
+                <td>
+                  <span class="math-inline">\(2^{24}=16,777,216\)</span>
+                  possible combinations
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="algorithm-comparison-at-a-glance">
+          Algorithm Comparison at a Glance
+        </h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Algorithm</th>
+                <th>Input / purpose</th>
+                <th>Core decision mechanism</th>
+                <th>Important output</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DDA</td>
+                <td>Rasterise a line.</td>
+                <td>Increment x and y by floating-point steps.</td>
+                <td>Rounded pixel sequence.</td>
+              </tr>
+              <tr>
+                <td>Bresenham line</td>
+                <td>Rasterise a line.</td>
+                <td>Integer decision parameter selects the next pixel.</td>
+                <td>Pixel sequence with integer updates.</td>
+              </tr>
+              <tr>
+                <td>Bresenham circle</td>
+                <td>Rasterise a circle.</td>
+                <td>
+                  Incremental decision between neighbouring pixels; eight-way
+                  symmetry.
+                </td>
+                <td>Circle perimeter pixels.</td>
+              </tr>
+              <tr>
+                <td>Midpoint ellipse</td>
+                <td>Rasterise an ellipse.</td>
+                <td>Midpoint tests in two slope regions; four-way symmetry.</td>
+                <td>Ellipse perimeter pixels.</td>
+              </tr>
+              <tr>
+                <td>Cohen–Sutherland</td>
+                <td>Clip a line to a rectangle.</td>
+                <td>Endpoint outcodes; bitwise AND/OR tests; intersections.</td>
+                <td>Accepted visible line segment or rejection.</td>
+              </tr>
+              <tr>
+                <td>Sutherland–Hodgman</td>
+                <td>Clip a polygon to a convex window.</td>
+                <td>
+                  Process each polygon edge against each clipping boundary.
+                </td>
+                <td>New clipped polygon vertex list.</td>
+              </tr>
+              <tr>
+                <td>Z-buffer</td>
+                <td>Determine visible surface per pixel.</td>
+                <td>Compare depth at each pixel and update buffers.</td>
+                <td>Visible pixel colour/intensity.</td>
+              </tr>
+              <tr>
+                <td>Scan-line visibility</td>
+                <td>Determine visible surfaces along horizontal lines.</td>
+                <td>
+                  Active edge list, surface flags and depth tests where surfaces
+                  overlap.
+                </td>
+                <td>Visible intervals along each scan line.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="high-value-distinctions">High-value distinctions</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Do not confuse</th>
+                <th>Correct distinction</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Raster scan vs random scan</td>
+                <td>
+                  Raster scans rows/pixels; random scan traces required
+                  vectors/lines.
+                </td>
+              </tr>
+              <tr>
+                <td>DDA vs Bresenham</td>
+                <td>
+                  DDA uses floating-point increments and rounding; Bresenham
+                  uses an integer decision parameter.
+                </td>
+              </tr>
+              <tr>
+                <td>Circle vs ellipse symmetry</td>
+                <td>
+                  Circle uses eight-way symmetry; ellipse uses four-way
+                  symmetry.
+                </td>
+              </tr>
+              <tr>
+                <td>Translation vs scaling</td>
+                <td>
+                  Translation shifts all points equally; scaling changes
+                  distances from a fixed point.
+                </td>
+              </tr>
+              <tr>
+                <td>Uniform vs non-uniform scaling</td>
+                <td>
+                  Equal factors preserve proportions; unequal factors change
+                  proportions.
+                </td>
+              </tr>
+              <tr>
+                <td>Window vs viewport</td>
+                <td>
+                  Window selects a world-coordinate region; viewport is the
+                  display region receiving it.
+                </td>
+              </tr>
+              <tr>
+                <td>Line clipping vs polygon clipping</td>
+                <td>
+                  Cohen–Sutherland clips lines; Sutherland–Hodgman clips
+                  polygons.
+                </td>
+              </tr>
+              <tr>
+                <td>B-Rep vs space partitioning</td>
+                <td>
+                  B-Rep describes the outer boundary; space partitioning divides
+                  the object's spatial volume.
+                </td>
+              </tr>
+              <tr>
+                <td>Interpolation vs approximation spline</td>
+                <td>
+                  Interpolation passes through data points; approximation is
+                  guided by control points but need not pass through all.
+                </td>
+              </tr>
+              <tr>
+                <td>Parallel vs perspective projection</td>
+                <td>
+                  Parallel uses parallel projection lines; perspective lines
+                  converge and produce a realistic depth effect.
+                </td>
+              </tr>
+              <tr>
+                <td>Discrete vs continuous media</td>
+                <td>
+                  Discrete media is time-independent; continuous media is
+                  time-dependent.
+                </td>
+              </tr>
+              <tr>
+                <td>JPEG vs H.261</td>
+                <td>JPEG compresses still images; H.261 compresses video.</td>
+              </tr>
+              <tr>
+                <td>Tweening vs morphing</td>
+                <td>
+                  Tweening creates intermediate frames between keyframes;
+                  morphing transforms one image/shape into another.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="how-to-structure-exam-answers">
+          How To Structure Exam Answers
+        </h3>
+        <ul>
+          <li>
+            Definition question: give a precise definition, then one relevant
+            property or example.
+          </li>
+          <li>
+            Compare question: use the same dimensions for both methods
+            (representation, operation, output, advantages and limitations).
+          </li>
+          <li>
+            Algorithm question: state inputs, initialise variables, show
+            decision parameter, write both branches, show stopping condition and
+            trace a small example.
+          </li>
+          <li>
+            Matrix question: state coordinate convention, write the matrix,
+            substitute the point, and show the resulting coordinates.
+          </li>
+          <li>
+            Pipeline question: list stages in order and explain what each stage
+            transforms.
+          </li>
+          <li>
+            Compression question: identify input, transformation,
+            quantisation/encoding steps, whether loss occurs and the intended
+            benefit.
+          </li>
+        </ul>
+        <h3 id="coverage-and-source-notes">Coverage And Source Notes</h3>
+        <p>
+          This guide follows the official B.Tech Semester V Computer Graphics
+          and Multimedia Techniques syllabus (course code 102902/C050IE, 2023
+          admissions) and consolidates the uploaded Module 1–5 notes.
+        </p>
+        <ul>
+          <li>
+            Module 1 source notes cover computer graphics, CRTs, display
+            systems, DDA, Bresenham line, Bresenham circle and midpoint ellipse.
+          </li>
+          <li>
+            Module 2 source notes cover 2D transformations, homogeneous
+            coordinates, viewing, viewport mapping and clipping.
+          </li>
+          <li>
+            Module 3 source notes cover 3D representations, polygon data,
+            planes, meshes, splines, Bézier modelling and visible-surface
+            detection.
+          </li>
+          <li>
+            Module 4 source notes cover the 3D viewing pipeline and projections.
+            OpenGL material appears in the supplied notes under a different PDF
+            section, but is organised here under Module 4 to match the official
+            syllabus.
+          </li>
+          <li>
+            Module 5 source notes cover media, streams, music, speech, images,
+            compression, JPEG, H.261, animation and motion. Scope limitation.
+            This is a complete study reference for the topics identifiable in
+            the supplied syllabus and lecture PDFs. The source material does not
+            provide equal depth for every listed topic; for example, the
+            uploaded Module 3 notes are more detailed on polygon representation
+            and visibility than on some spline derivations. Where a full
+            derivation was not present in the supplied notes, this guide gives
+            the standard core formulation needed to understand and apply the
+            syllabus topic, and does not claim to reproduce an unseen
+            lecturer-specific derivation.
+          </li>
+        </ul>
+        <h3 id="mastery-checklist">Mastery Checklist</h3>
+        <p>Module 1</p>
+        <ul>
+          <li>
+            <p>I CRT and display terminology</p>
+          </li>
+          <li>
+            <p>I Raster vs random scan</p>
+          </li>
+          <li>
+            <p>I DDA traces</p>
+          </li>
+          <li>
+            <p>I Bresenham line traces</p>
+          </li>
+          <li>
+            <p>I Bresenham circle symmetry and decision updates</p>
+          </li>
+          <li>
+            <p>I Midpoint ellipse regions and updates Module 2</p>
+          </li>
+          <li>
+            <p>I 2D transformation matrices</p>
+          </li>
+          <li>
+            <p>I Fixed-point transformations</p>
+          </li>
+          <li>
+            <p>I Homogeneous coordinates</p>
+          </li>
+          <li>
+            <p>I Composite order</p>
+          </li>
+          <li>
+            <p>I Window-to-viewport calculations</p>
+          </li>
+          <li>
+            <p>I Cohen–Sutherland</p>
+          </li>
+          <li>
+            <p>I Sutherland–Hodgman Module 3</p>
+          </li>
+          <li>
+            <p>I B-Rep and space partitioning</p>
+          </li>
+          <li>
+            <p>I Polygon tables and meshes</p>
+          </li>
+          <li>
+            <p>I Plane equations</p>
+          </li>
+          <li>
+            <p>I Interpolation and approximation splines</p>
+          </li>
+          <li>
+            <p>I Bézier curves and surfaces</p>
+          </li>
+          <li>
+            <p>I Z-buffer</p>
+          </li>
+          <li>
+            <p>I Scan-line visibility Module 4</p>
+          </li>
+          <li>
+            <p>I 3D transformation matrices</p>
+          </li>
+          <li>
+            <p>I Composite transformations</p>
+          </li>
+          <li>
+            <p>I 3D viewing pipeline</p>
+          </li>
+          <li>
+            <p>I Parallel and perspective projection</p>
+          </li>
+          <li>
+            <p>I OpenGL primitives and functions</p>
+          </li>
+          <li>
+            <p>I OpenGL pipeline and sample programs Module 5</p>
+          </li>
+          <li>
+            <p>I Multimedia components and properties</p>
+          </li>
+          <li>
+            <p>I Data streams and traditional stream traits</p>
+          </li>
+          <li>
+            <p>I Music digitisation and speech</p>
+          </li>
+          <li>
+            <p>I Digital images and colour models</p>
+          </li>
+          <li>
+            <p>I Compression requirements and types</p>
+          </li>
+          <li>
+            <p>I JPEG</p>
+          </li>
+          <li>
+            <p>I H.261</p>
+          </li>
+          <li>
+            <p>I Animation, tweening and morphing</p>
+          </li>
+          <li>
+            <p>I Acceleration and motion specification</p>
+          </li>
+        </ul>
+        <hr />
+        <h2 id="source-files">Source files</h2>
+        <ul>
+          <li><code>CG-mod1.pdf</code></li>
+          <li><code>CG-mod2.pdf</code></li>
+          <li><code>CG-mod3.pdf</code></li>
+          <li><code>CG-mod4.pdf</code></li>
+          <li><code>CG-mod5.pdf</code></li>
+          <li><code>syllabus(1).pdf</code></li>
+        </ul>
+        <p>
+          This Markdown edition is searchable and editable. It avoids PDF
+          pagination and font-rendering problems; use a Markdown reader that
+          supports LaTeX if you want equations rendered.
+        </p>
+        <footer>
+          Source basis: the supplied Module 1–5 lecture PDFs and official
+          syllabus. Check source-specific notation and lecturer conventions
+          against the original slides where the notes flag ambiguity.
+        </footer>
+      </main>
+    </div>
+    <script>
+      (() => {
+        const root = document.documentElement,
+          read = (k) => {
+            try {
+              return localStorage.getItem(k);
+            } catch (e) {
+              return null;
+            }
+          },
+          save = (k, v) => {
+            try {
+              localStorage.setItem(k, v);
+            } catch (e) {}
+          };
+        const readProgress = (k) => {
+          try {
+            const value = localStorage.getItem(k);
+            if (value !== null) return value;
+          } catch (e) {}
+          try {
+            const prefix = encodeURIComponent(k) + "=";
+            const item = document.cookie
+              .split(";")
+              .map((part) => part.trim())
+              .find((part) => part.startsWith(prefix));
+            return item ? decodeURIComponent(item.slice(prefix.length)) : null;
+          } catch (e) {
+            return null;
+          }
+          try {
+            return sessionStorage.getItem(k);
+          } catch (e) {
+            return null;
+          }
+        };
+        const saveProgress = (k, v) => {
+          try {
+            localStorage.setItem(k, v);
+            if (localStorage.getItem(k) === v) return true;
+          } catch (e) {}
+          try {
+            document.cookie =
+              encodeURIComponent(k) +
+              "=" +
+              encodeURIComponent(v) +
+              "; max-age=31536000; path=/; SameSite=Lax";
+            const prefix = encodeURIComponent(k) + "=";
+            const item = document.cookie
+              .split(";")
+              .map((part) => part.trim())
+              .find((part) => part.startsWith(prefix));
+            if (item && decodeURIComponent(item.slice(prefix.length)) === v) {
+              return true;
+            }
+          } catch (e) {}
+          try {
+            sessionStorage.setItem(k, v);
+            return sessionStorage.getItem(k) === v;
+          } catch (e) {
+            return false;
+          }
+        };
+        const setTheme = (t) => {
+          root.dataset.theme = t;
+          document.getElementById("theme").textContent =
+            t === "dark" ? "Light mode" : "Dark mode";
+          save("cgmt-theme", t);
+        };
+        setTheme(
+          read("cgmt-theme") ||
+            (matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light"),
+        );
+        document
+          .getElementById("theme")
+          .addEventListener("click", () =>
+            setTheme(root.dataset.theme === "dark" ? "light" : "dark"),
+          );
+        let scale = Number(read("cgmt-scale") || 1);
+        const guide = document.getElementById("guide");
+        const scaleSet = () => {
+          scale = Math.max(0.85, Math.min(1.25, scale));
+          guide.style.fontSize = scale + "rem";
+          save("cgmt-scale", scale);
+        };
+        scaleSet();
+        document.getElementById("font-up").addEventListener("click", () => {
+          scale += 0.05;
+          scaleSet();
+        });
+        document.getElementById("font-down").addEventListener("click", () => {
+          scale -= 0.05;
+          scaleSet();
+        });
+        document
+          .getElementById("print")
+          .addEventListener("click", () => window.print());
+        const lis = [...document.querySelectorAll("#toc>li")],
+          key = "cgmt-topic-checks-v4",
+          legacyKey = "cgmt-topic-checks-v3";
+        let done = new Set();
+        try {
+          const stored =
+            readProgress(key) || readProgress(legacyKey) || "[]";
+          const a = JSON.parse(stored);
+          if (Array.isArray(a)) done = new Set(a.filter((v) => typeof v === "string"));
+        } catch (e) {}
+        const entries = lis.map((li, i) => {
+          const level = +(li.className.match(/toc-level-(\d)/) || [])[1],
+            a = li.querySelector(":scope>a"),
+            desc = [];
+          for (let j = i + 1; j < lis.length; j++) {
+            let l = +(lis[j].className.match(/toc-level-(\d)/) || [])[1];
+            if (l <= level) break;
+            desc.push(lis[j]);
+          }
+          return { li, level, a, desc, leaf: !desc.length };
+        });
+        const leaves = entries.filter((e) => e.leaf),
+          checks = new Map();
+        leaves.forEach((e) => {
+          let c = document.createElement("input");
+          c.type = "checkbox";
+          c.className = "toc-check";
+          c.checked = done.has(e.a.hash);
+          c.setAttribute("aria-label", "Mark " + e.a.textContent + " complete");
+          c.addEventListener("click", (ev) => ev.stopPropagation());
+          c.addEventListener("change", () => {
+            c.checked ? done.add(e.a.hash) : done.delete(e.a.hash);
+            update();
+          });
+          e.li.insertBefore(c, e.a);
+          checks.set(e.a.hash, c);
+        });
+        const fill = document.getElementById("progress-fill"),
+          bar = document.querySelector(".progress-track"),
+          label = document.getElementById("progress-label");
+        function update(persist = true) {
+          const validHashes = new Set(leaves.map((e) => e.a.hash));
+          done = new Set([...done].filter((hash) => validHashes.has(hash)));
+          let n = leaves.filter((e) => done.has(e.a.hash)).length,
+            p = leaves.length ? Math.round((n / leaves.length) * 100) : 0;
+          fill.style.width = p + "%";
+          bar.setAttribute("aria-valuenow", p);
+          const saved = persist
+            ? saveProgress(key, JSON.stringify([...done]))
+            : true;
+          label.textContent =
+            `${n} of ${leaves.length} topics complete · ${p}%` +
+            (saved ? "" : " · progress could not be saved");
+          entries
+            .filter((e) => !e.leaf)
+            .forEach((e) => {
+              let ds = e.desc.filter((x) => checks.has(x.a.hash)),
+                all = ds.length && ds.every((x) => done.has(x.a.hash)),
+                some = ds.some((x) => done.has(x.a.hash));
+              e.a.classList.toggle("done", !!all);
+              e.a.classList.toggle("partial", !!some && !all);
+              e.a.title = all
+                ? "All subtopics complete"
+                : some
+                  ? "Some subtopics complete"
+                  : "Click to mark all subtopics complete";
+            });
+        }
+        addEventListener("storage", (event) => {
+          if (event.key !== key) return;
+          try {
+            const stored = JSON.parse(event.newValue || "[]");
+            if (!Array.isArray(stored)) return;
+            done = new Set(stored.filter((hash) => typeof hash === "string"));
+            checks.forEach((checkbox, hash) => {
+              checkbox.checked = done.has(hash);
+            });
+            update(false);
+          } catch (e) {}
+        });
+        entries.forEach((e) => {
+          if (e.leaf) {
+            e.a.addEventListener("click", () => {
+              entries.forEach((x) => x.a.classList.remove("active"));
+              e.a.classList.add("active");
+            });
+          } else {
+            e.a.classList.add("toc-group");
+            e.a.setAttribute("role", "button");
+            e.a.addEventListener("click", (ev) => {
+              ev.preventDefault();
+              let ds = e.desc.filter((x) => checks.has(x.a.hash)),
+                v = !ds.every((x) => done.has(x.a.hash));
+              ds.forEach((x) => {
+                v ? done.add(x.a.hash) : done.delete(x.a.hash);
+                checks.get(x.a.hash).checked = v;
+              });
+              update();
+            });
+          }
+        });
+        update();
+        function reading() {
+          let d = document.documentElement.scrollHeight - innerHeight,
+            p = d > 0 ? (scrollY / d) * 100 : 100;
+          document.getElementById("reading-progress").style.width =
+            Math.max(0, Math.min(100, p)) + "%";
+        }
+        addEventListener("scroll", reading, { passive: true });
+        addEventListener("resize", reading);
+        reading();
+      })();
+    </script>
+  </body>
+</html>
